@@ -17,10 +17,16 @@ client.on('message', message => {
 
   if (content === '!ping') {
     if (message.author.username.toLowerCase() == 'pac') {
-      message.channel.send('No ron');
-    } else {
-      message.channel.send('pong!');
+      message.react(message.client.emojis.find(emoji => emoji.name === 'spooderman2').id);
     }
+    message.channel.send('Baa pong!');
+  }
+
+  if (content === '!marco') {
+    if (message.author.username.toLowerCase() == '🤖lightscamerazaction🤖') {
+      message.react(message.client.emojis.find(emoji => emoji.name === 'tpride').id);
+    }
+    message.channel.send('Baa polo!');
   }
 
   if (content.startsWith('!colour')) {
@@ -29,7 +35,7 @@ client.on('message', message => {
     let role = message.member.highestRole;
     role.setColor(hex)
       .then(updated => {
-        message.channel.send(`Your colour is now ${role.color}`);
+        message.channel.send(`Baa! Your colour is now ${hex}`);
       })
       .catch(console.error);
   }
@@ -37,6 +43,7 @@ client.on('message', message => {
   if (content.startsWith('!help') || content.startsWith('!comands')) {
     message.channel.send('```Available commands are: ' +
       '\n!ping' +
+      '\n!marco' +
       '\n!colour #97dbc8' +
       '\n!help' +
       '\n!commands ```');
