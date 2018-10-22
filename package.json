@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/ctrlaltcookie/McGoats/issues"
   },
-  "homepage": "https://github.com/ctrlaltcookie/McGoats#readme"
+  "homepage": "https://github.com/ctrlaltcookie/McGoats#readme",
+  "dependencies": {
+    "discord.js": "^11.4.2"
+  }
 }
