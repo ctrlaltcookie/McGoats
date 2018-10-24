@@ -25,14 +25,26 @@ client.on('message', message => {
     if (message.author.username.toLowerCase() == 'pac') {
       message.react(message.client.emojis.find(emoji => emoji.name === 'spooderman2').id);
     }
-    message.channel.send('Baa pong!');
+    message.channel.send('Baa, pong!');
+  }
+
+  if (content === '!pong') {
+    if (message.author.username.toLowerCase() == 'absynthe') {
+      message.react(message.client.emojis.find(emoji => emoji.name === 'rooAww').id);
+    }
+    message.channel.send('Baa, ping!');
   }
 
   if (content === '!marco') {
     if (message.author.username.toLowerCase() == '🤖lightscamerazaction🤖') {
       message.react(message.client.emojis.find(emoji => emoji.name === 'tpride').id);
     }
-    message.channel.send('Baa polo!');
+    message.channel.send('Baa, polo!');
+  }
+
+  if (content === '!polo') {
+    message.react(message.client.emojis.find(emoji => emoji.name === 'happy').id);
+    message.channel.send('Baa, marco!');
   }
 
   if (content.startsWith('!colour')) {
@@ -41,7 +53,7 @@ client.on('message', message => {
     let role = message.member.highestRole;
     role.setColor(hex)
       .then(updated => {
-        message.channel.send(`Baa! Your colour is now ${hex}`);
+        message.channel.send(`Baa, your colour is now ${hex}`);
       })
       .catch(console.error);
   }
@@ -52,7 +64,7 @@ client.on('message', message => {
       '\n!marco' +
       '\n!colour #97dbc8' +
       '\n!help' +
-      '\n!commands ```');
+      '\n!commands```');
   }
 });
 
