@@ -1,6 +1,12 @@
 const {token} = require('./token');
 const Discord = require('discord.js');
 
+const hangman = {
+  playing: false,
+  word: null,
+  turn: 1
+}
+
 // Create an instance of a Discord client
 const client = new Discord.Client();
 
