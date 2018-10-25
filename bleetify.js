@@ -35,5 +35,5 @@ const flipCoin = function () {
 }
 
 module.exports = {
-  bleetify: bleet
+  Bleetify: bleet
 }
