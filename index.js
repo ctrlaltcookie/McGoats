@@ -12,6 +12,7 @@ let gameState = {
 }
 
 let goodgoat = 0;
+let badgoat = 0;
 
 // Create an instance of a Discord client
 const client = new Discord.Client();
@@ -71,8 +72,14 @@ client.on('message', message => {
     goodgoat++;
   }
 
+  if (content.startsWith('!badgoat')) {
+    message.react(message.client.emojis.find(emoji => emoji.name === 'eww').id);
+    badgoat++;
+  }
+
   if (content.startsWith('!count')) {
-    message.channel.send(Bleetify(`I've been a good goat ${goodgoat} times ${message.client.emojis.find(emoji => emoji.name === 'cat1')}`, 20));
+    message.channel.send(Bleetify(`I've been a good goat ${goodgoat} times ${message.client.emojis.find(emoji => emoji.name === 'cat1')} and a bad goat
+    ${badgoat} times ${message.client.emojis.find(emoji => emoji.name === 'eww')}`, 20));
   }
 
   if (content.startsWith('!needssomeworkgoat')) {

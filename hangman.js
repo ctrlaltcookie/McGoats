@@ -1,5 +1,6 @@
 const Bleetify = require('./bleetify');
 const Template = require('./hangmanTemplate');
+const Words = require('./words_dictionary');
 
 const game = function (message, gamestate) {
   const guess = message.content.toLowerCase()[1];
@@ -24,6 +25,17 @@ const game = function (message, gamestate) {
     `\n You lost, the word was ${word}`);
   }
   return message.channel.send(Template[gamestate].join('\n'));
+}
+
+const setup = function () {
+  const maxLength = Object.keys(Words).length;
+}
+
+/**
+ * Returns a random number between 1 and max;
+ */
+function getRand(max) {
+  return Math.random() * (max - 1) + 1;
 }
 
 const resetGame = function (gamestate) {
