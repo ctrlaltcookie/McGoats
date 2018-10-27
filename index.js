@@ -115,6 +115,7 @@ client.on('message', message => {
       '\n!goodgoat' +
       '\n!badgoat' +
       '\n!count' +
+      '\n!hangman' +
       '\n!uptime' +
       '\n!ping' +
       '\n!marco' +
