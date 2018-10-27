@@ -1,58 +1,64 @@
-const Bleetify = require('./bleetify');
+const {Bleetify} = require('./bleetify');
 const Template = require('./hangmanTemplate');
-const Words = require('./words_dictionary');
+const {words} = require('./words');
 
 const play = function (message, gamestate) {
   const guess = message.content.toLowerCase()[1];
-  if (gamestate[guess]) {
+  if (gamestate.guessedLetters[guess]) {
     return message.channel.send(Bleetify(`You already guessed ${guess}`, 20));
   }
+  gamestate.guessedLetters[guess] = true;
   if (gamestate.word.includes(guess)) {
     unmask(gamestate, guess);
-    gamestate[guess] = true;
     if (gamestate.word === gamestate.mask) {
-      const word = gamestate.word;
-      reset(gamestate);
-      return message.channel.send(Bleetify(`${word}, ooooh! You got it!`, 20));
+      win(gamestate, message);
     }
-    return message.channel.send(Bleetify(`\`\`\`${gamestate.mask}\`\`\``, 20));
+    const ticks = '```'
+    return message.channel.send(Bleetify(ticks + `${gamestate.mask}` + ticks, 20));
   }
   gamestate.turn++;
   if (gamestate.turn === 9) {
     const word = gamestate.word;
-    reset(gamestate);
-    return message.channel.send(Template[gamestate].join('\n') +
+    gamestate.playing = false;
+    return message.channel.send(Template[9].join('\n') +
     `\n You lost, the word was ${word}`);
   }
-  return message.channel.send(Template[gamestate].join('\n'));
+  return message.channel.send(Template[gamestate.turn].join('\n'));
 }
 
 const setup = function () {
-  const maxLength = Object.keys(Words).length;
-  const word = Words[getRand(maxLength)];
-  return { word, mask: '_'.repeat(word.length) };
+  const maxLength = words.length;
+  const index = getRand(maxLength);
+  const word = words[index];
+  return { word: word.toLowerCase(), mask: '_'.repeat(word.length) };
 }
 
 const unmask = function (gamestate, guess) {
   let edit = gamestate.word;
   while(edit.indexOf(guess) > -1) {
     const index = edit.indexOf(guess);
-    if (index) {
+    if (index > -1) {
       gamestate.mask = gamestate.mask.substr(0, index) + guess + gamestate.mask.substr(index + 1);
       edit = edit.substr(0, index) + ' ' + edit.substr(index + 1);;
     }
   }
 }
 
+const win = function (gamestate, message) {
+  const word = gamestate.word;
+  gamestate.playing = false;
+  return message.channel.send(Bleetify(`${word}, ooooh! You got it!`, 20));
+}
+
 /**
  * Returns a random number between 1 and max;
  */
 function getRand(max) {
-  return Math.random() * (max - 1) + 1;
+  return Math.floor(Math.random() * (max - 1) + 1);
 }
 
-const reset = function (gamestate) {
-  gamestate = {
+const reset = function () {
+  return {
     playing: false,
     word: null,
     guessedLetters: {},
@@ -64,5 +70,6 @@ const reset = function (gamestate) {
 module.exports = {
   play,
   reset,
-  setup
+  setup,
+  win
 }
