@@ -1,6 +1,7 @@
 const {Bleetify} = require('./bleetify');
 const Template = require('./hangmanTemplate');
 const {words} = require('./words');
+const tick = '`'
 
 const play = function (message, gamestate) {
   const guess = message.content.toLowerCase()[1];
@@ -14,7 +15,7 @@ const play = function (message, gamestate) {
       win(gamestate, message);
     }
     const ticks = '```'
-    return message.channel.send(Bleetify(ticks + `${gamestate.mask}` + ticks, 20));
+    return message.channel.send(Bleetify(guessedLetters(gamestate) + '\n' + ticks + `${gamestate.mask}` + ticks, 20));
   }
   gamestate.turn++;
   if (gamestate.turn === 9) {
@@ -23,7 +24,13 @@ const play = function (message, gamestate) {
     return message.channel.send(Template[9].join('\n') +
     `\n You lost, the word was ${word}`);
   }
-  return message.channel.send(Template[gamestate.turn].join('\n'));
+  return message.channel.send(`Current word: ${tick}${gamestate.mask}${tick} \n` +
+  guessedLetters(gamestate) +
+    Template[gamestate.turn].join('\n'));
+}
+
+const guessedLetters = function (gamestate) {
+  return `Guessed letters ${tick}${Object.keys(gamestate.guessedLetters).join(', ')}${tick}`;
 }
 
 const setup = function () {
