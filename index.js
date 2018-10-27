@@ -78,13 +78,18 @@ client.on('message', message => {
   }
 
   if (content.startsWith('!count')) {
-    message.channel.send(Bleetify(`I've been a good goat ${goodgoat} times ${message.client.emojis.find(emoji => emoji.name === 'cat1')} and a bad goat
-    ${badgoat} times ${message.client.emojis.find(emoji => emoji.name === 'eww')}`, 20));
+    const goatType = (goodgoat - badgoat) ? 'good goat' : 'bad goat';
+    const emoteType = (goodgoat - badgoat) ? 'cat1' : 'eww';
+    message.channel.send(Bleetify(`I've been a ${goatType} ${message.client.emojis.find(emoji => emoji.name === emoteType)}`, 20));
   }
 
   if (content.startsWith('!needssomeworkgoat')) {
     message.react(message.client.emojis.find(emoji => emoji.name === 'skull1').id);
     message.channel.send(Bleetify('I Came Out to Have a Good Time and I\'m Honestly Feeling So Attacked Right Now', 20));
+  }
+
+  if (content.startsWith('!sexygoat')) {
+    message.channel.send("``` You've really freaked the goat out :/ don't do that ```");
   }
 
   if (content.startsWith('!help') || content.startsWith('!comands')) {
