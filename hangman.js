@@ -8,19 +8,19 @@ const game = function (message, gamestate) {
     return message.channel.send(Bleetify(`You already guesed ${guess}`, 20));
   }
   if (gamestate.word.includes(guess)) {
-    gamestate.mask.replace(new RegExp(guess, 'g'));
+    unmask(gamestate, guess);
     gamestate[guess] = true;
     if (gamestate.word === gamestate.mask) {
       const word = gamestate.word;
-      resetGame(gamestate);
+      reset(gamestate);
       return message.channel.send(Bleetify(`${word}, ooooh! You got it!`, 20));
     }
-    return message.channel.send(Bleetify(`${gamestate.mask}`, 20));
+    return message.channel.send(Bleetify(`\`\`\`${gamestate.mask}\`\`\``, 20));
   }
   gamestate.turn++;
   if (gamestate.turn === 9) {
     const word = gamestate.word;
-    resetGame(gamestate);
+    reset(gamestate);
     return message.channel.send(Template[gamestate].join('\n') +
     `\n You lost, the word was ${word}`);
   }
@@ -29,6 +29,19 @@ const game = function (message, gamestate) {
 
 const setup = function () {
   const maxLength = Object.keys(Words).length;
+  const word = Words[getRand(maxLength)];
+  return { word, mask: '_'.repeat(word.length) };
+}
+
+const unmask = function (gamestate, guess) {
+  let edit = gamestate.word;
+  while(edit.indexOf(guess) > -1) {
+    const index = edit.indexOf(guess);
+    if (index) {
+      gamestate.mask = gamestate.mask.substr(0, index) + guess + gamestate.mask.substr(index + 1);
+      edit = edit.substr(0, index) + ' ' + edit.substr(index + 1);;
+    }
+  }
 }
 
 /**
@@ -38,7 +51,7 @@ function getRand(max) {
   return Math.random() * (max - 1) + 1;
 }
 
-const resetGame = function (gamestate) {
+const reset = function (gamestate) {
   gamestate = {
     playing: false,
     word: null,
@@ -49,5 +62,7 @@ const resetGame = function (gamestate) {
 }
 
 module.exports = {
-  game: game
+  game,
+  reset,
+  setup
 }
