@@ -101,6 +101,7 @@ client.on('message', message => {
       '\n!goodgoat' +
       '\n!badgoat' +
       '\n!count' +
+      '\n!uptime' +
       '\n!ping' +
       '\n!marco' +
       '\n!colour #97dbc8' +
