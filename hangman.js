@@ -2,10 +2,10 @@ const Bleetify = require('./bleetify');
 const Template = require('./hangmanTemplate');
 const Words = require('./words_dictionary');
 
-const game = function (message, gamestate) {
+const play = function (message, gamestate) {
   const guess = message.content.toLowerCase()[1];
   if (gamestate[guess]) {
-    return message.channel.send(Bleetify(`You already guesed ${guess}`, 20));
+    return message.channel.send(Bleetify(`You already guessed ${guess}`, 20));
   }
   if (gamestate.word.includes(guess)) {
     unmask(gamestate, guess);
@@ -62,7 +62,7 @@ const reset = function (gamestate) {
 }
 
 module.exports = {
-  game,
+  play,
   reset,
   setup
 }

@@ -28,7 +28,15 @@ client.on('ready', () => {
 client.on('message', message => {
   const content = message.content.toLowerCase();
 
-  if (gameState.playing && content.length < 3) return Hangman.game(message, gameState);
+  if (!gameState.playing && content.startsWith('!hangman')) {
+    Hangman.reset(gameState);
+    const setup = Hangman.setup();
+    gameState.word = setup.word;
+    gameState.mask = setup.mask;
+    return message.channel.send(Bleetify(`Lets play hangman, your word is ${gameState.mask.length} letters long, respond with !letter to play, like this: !a`, 20));
+  }
+
+  if (gameState.playing && content.length < 3) return Hangman.play(message, gameState);
 
   if (content === '!ping') {
     if (message.author.username.toLowerCase() == 'pac') {
