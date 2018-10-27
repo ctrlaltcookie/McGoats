@@ -34,26 +34,26 @@ client.on('message', message => {
     if (message.author.username.toLowerCase() == 'pac') {
       message.react(message.client.emojis.find(emoji => emoji.name === 'spooderman2').id);
     }
-    message.channel.send(Bleetify('Pong!', 20));
+    return message.channel.send(Bleetify('Pong!', 20));
   }
 
   if (content === '!pong') {
     if (message.author.username.toLowerCase() == 'absynthe') {
       message.react(message.client.emojis.find(emoji => emoji.name === 'rooAww').id);
     }
-    message.channel.send(Bleetify('Ping!', 20));
+    return message.channel.send(Bleetify('Ping!', 20));
   }
 
   if (content === '!marco') {
     if (message.author.username.toLowerCase() == '🤖lightscamerazaction🤖') {
       message.react(message.client.emojis.find(emoji => emoji.name === 'tpride').id);
     }
-    message.channel.send(Bleetify('Polo!', 20));
+    return message.channel.send(Bleetify('Polo!', 20));
   }
 
   if (content === '!polo') {
     message.react(message.client.emojis.find(emoji => emoji.name === 'happy').id);
-    message.channel.send(Bleetify('Marco!', 20));
+    return message.channel.send(Bleetify('Marco!', 20));
   }
 
   if (content.startsWith('!colour')) {
@@ -68,32 +68,39 @@ client.on('message', message => {
   }
 
   if (content.startsWith('!goodgoat')) {
-    message.react(message.client.emojis.find(emoji => emoji.name === 'cat1').id);
     goodgoat++;
+    return message.react(message.client.emojis.find(emoji => emoji.name === 'cat1').id);
   }
 
   if (content.startsWith('!badgoat')) {
-    message.react(message.client.emojis.find(emoji => emoji.name === 'eww').id);
     badgoat++;
+    return message.react(message.client.emojis.find(emoji => emoji.name === 'eww').id);
   }
 
   if (content.startsWith('!count')) {
     const goatType = (goodgoat - badgoat) ? 'good goat' : 'bad goat';
     const emoteType = (goodgoat - badgoat) ? 'cat1' : 'eww';
-    message.channel.send(Bleetify(`I've been a ${goatType} ${message.client.emojis.find(emoji => emoji.name === emoteType)}`, 20));
+    return message.channel.send(Bleetify(`I've been a ${goatType} ${message.client.emojis.find(emoji => emoji.name === emoteType)}`, 20));
+  }
+
+  if (content.startsWith('!uptime')) {
+    return message.channel.send(Bleetify(`We've been up for ${client.uptime / 1000}s`, 20));
   }
 
   if (content.startsWith('!needssomeworkgoat')) {
     message.react(message.client.emojis.find(emoji => emoji.name === 'skull1').id);
-    message.channel.send(Bleetify('I Came Out to Have a Good Time and I\'m Honestly Feeling So Attacked Right Now', 20));
+    return message.channel.send(Bleetify('I Came Out to Have a Good Time and I\'m Honestly Feeling So Attacked Right Now', 20));
   }
 
   if (content.startsWith('!sexygoat')) {
-    message.channel.send("``` You've really freaked the goat out :/ don't do that ```");
+    return message.channel.send("``` You've really freaked the goat out :/ don't do that ```");
   }
 
   if (content.startsWith('!help') || content.startsWith('!comands')) {
-    message.channel.send('```Available commands are: ' +
+    return message.channel.send('```Available commands are: ' +
+      '\n!goodgoat' +
+      '\n!badgoat' +
+      '\n!count' +
       '\n!ping' +
       '\n!marco' +
       '\n!colour #97dbc8' +
