@@ -12,7 +12,7 @@ const play = function (message, gamestate) {
   if (gamestate.word.includes(guess)) {
     unmask(gamestate, guess);
     if (gamestate.word === gamestate.mask) {
-      win(gamestate, message);
+      return win(gamestate, message);
     }
     const ticks = '```'
     return message.channel.send(Bleetify(guessedLetters(gamestate) + '\n' + ticks + `${gamestate.mask}` + ticks, 20));
