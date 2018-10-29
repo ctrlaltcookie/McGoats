@@ -54,7 +54,7 @@ const unmask = function (gamestate, guess) {
 const win = function (gamestate, message) {
   const word = gamestate.word;
   gamestate.playing = false;
-  return message.channel.send(Bleetify(`${word}, ooooh! You got it!`, 20));
+  return message.channel.send(Bleetify(`${tick}${word}${tick}, ooooh! You got it!`, 20));
 }
 
 /**
