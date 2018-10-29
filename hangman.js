@@ -30,7 +30,7 @@ const play = function (message, gamestate) {
 }
 
 const guessedLetters = function (gamestate) {
-  return `Guessed letters ${tick}${Object.keys(gamestate.guessedLetters).join(', ')}${tick}`;
+  return `Guessed letters ${tick}${Object.keys(gamestate.guessedLetters).join(', ')}${tick} \n`;
 }
 
 const setup = function () {
