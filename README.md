@@ -14,7 +14,7 @@ $ node index.js
 
 Though you should probably use pm2.
 
-# Upcoming feature
+# Upcoming features
 
 * PERSISTENCE - not just in fighting bugs and doing work after 8 hours of other work, but also, putting data on disk!
 * Score! - Yeah! Adding scores to things, so that you can like, build up score and use it to do things, relies on persistence existing
