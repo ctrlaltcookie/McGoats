@@ -11,6 +11,9 @@ let gameState = {
   mask: null
 }
 
+let goodVoteHistory = [];
+let badVoteHistory = [];
+
 let goodgoat = 0;
 let badgoat = 0;
 
@@ -22,11 +25,18 @@ const client = new Discord.Client();
  */
 client.on('ready', () => {
   console.log('I am ready!');
+  const halfAnHour = 15 * 60 * 1000;
+  setInterval(() => {
+    goodVoteHistory = [];
+    badVoteHistory = [];
+  }, halfAnHour);
+  console.log('votes reset');
 });
 
 // Create an event listener for messages
 client.on('message', message => {
   const content = message.content.toLowerCase();
+  const username = message.author.username.toLowerCase();
 
   if(content === `!${gameState.word}`) {
     Hangman.win(gameState, message);
@@ -35,31 +45,36 @@ client.on('message', message => {
   if (!gameState.playing && content.startsWith('!hangman')) {
     gameState = Hangman.reset();
     const setup = Hangman.setup();
-    console.log(setup.word);
     gameState.word = setup.word;
     gameState.mask = setup.mask;
     gameState.playing = true;
     return message.channel.send(Bleetify(`Lets play hangman, your word is ${gameState.mask.length} letters long, respond with !letter to play, like this: !a`, 20));
   }
 
-  if (gameState.playing && content.startsWith('!') && content.length < 3) return Hangman.play(message, gameState);
+  if (gameState.playing && content.startsWith('!hangman')) {
+    return Hangman.currentState(message, gameState);
+  }
+
+  if (gameState.playing && content.startsWith('!') && content.length < 3) {
+    return Hangman.play(message, gameState);
+  }
 
   if (content === '!ping') {
-    if (message.author.username.toLowerCase() == 'pac') {
+    if (username == 'pac') {
       message.react(message.client.emojis.find(emoji => emoji.name === 'spooderman2').id);
     }
     return message.channel.send(Bleetify('Pong!', 20));
   }
 
   if (content === '!pong') {
-    if (message.author.username.toLowerCase() == 'absynthe') {
+    if (username == 'absynthe') {
       message.react(message.client.emojis.find(emoji => emoji.name === 'rooAww').id);
     }
     return message.channel.send(Bleetify('Ping!', 20));
   }
 
   if (content === '!marco') {
-    if (message.author.username.toLowerCase() == '🤖lightscamerazaction🤖') {
+    if (username == '🤖lightscamerazaction🤖') {
       message.react(message.client.emojis.find(emoji => emoji.name === 'tpride').id);
     }
     return message.channel.send(Bleetify('Polo!', 20));
@@ -82,18 +97,43 @@ client.on('message', message => {
   }
 
   if (content.startsWith('!goodgoat')) {
-    goodgoat++;
+    const consecutive = checkHistory([...goodVoteHistory], username, message);
+
+    if (!consecutive) {
+      goodVoteHistory.push(username);
+      goodgoat++;
+    }
+
     return message.react(message.client.emojis.find(emoji => emoji.name === 'cat1').id);
   }
 
   if (content.startsWith('!badgoat')) {
-    badgoat++;
+    const consecutive = checkHistory([...badVoteHistory], username, message);
+
+    if (!consecutive) {
+      badVoteHistory.push(username);
+      badgoat++;
+    }
+
     return message.react(message.client.emojis.find(emoji => emoji.name === 'eww').id);
   }
 
-  if (content.startsWith('!count')) {
-    const goatType = (goodgoat - badgoat) ? 'good goat' : 'bad goat';
-    const emoteType = (goodgoat - badgoat) ? 'cat1' : 'eww';
+  if (content.startsWith('!count') || content.startsWith('!balance')) {
+    let goatType;
+    let emoteType;
+    const balance = goodgoat - badgoat;
+    if (balance > 10) {
+      goatType = 'good goat';
+      emoteType = 'happy';
+    }
+    if (balance < 10 && balance > -10) {
+      goatType = 'morally grey goat';
+      emoteType = 'confusedTravolta';
+    }
+    if (balance < -10) {
+      goatType = 'bad goat';
+      emoteType = 'eww';
+    }
     return message.channel.send(Bleetify(`I've been a ${goatType} ${message.client.emojis.find(emoji => emoji.name === emoteType)}`, 20));
   }
 
@@ -110,7 +150,7 @@ client.on('message', message => {
     return message.channel.send("``` You've really freaked the goat out :/ don't do that ```");
   }
 
-  if (content.startsWith('!help') || content.startsWith('!comands')) {
+  if (content.startsWith('!help') || content.startsWith('!commands')) {
     return message.channel.send('```Available commands are: ' +
       '\n!goodgoat' +
       '\n!badgoat' +
@@ -124,5 +164,19 @@ client.on('message', message => {
       '\n!commands```');
   }
 });
+
+const checkHistory = function (voteHistory, username, message) {
+  const oneVotePrevious = voteHistory.pop();
+  const twoVotesPrevious = voteHistory.pop();
+  const consecutive = oneVotePrevious === username && twoVotesPrevious === username
+
+  if (consecutive) {
+    message.reply("Please don't spam votes, baa!").then(msg => {
+      msg.delete(2000);
+    });
+  }
+
+  return consecutive;
+}
 
 client.login(token);
