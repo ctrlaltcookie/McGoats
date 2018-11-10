@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 const Hangman = require('./hangman');
 const {Bleetify} = require('./bleetify');
 const convert = require('./convert');
+const pjson = require('../package.json');
 
 let gameState = {
   playing: false,
@@ -152,6 +153,10 @@ client.on('message', message => {
     return message.channel.send("``` You've really freaked the goat out :/ don't do that ```");
   }
 
+  if (content.startsWith('!version')) {
+    return message.channel.send(Bleetify(`We're using v${pjson.version}`, 20));
+  }
+
   if (content.startsWith('!help') || content.startsWith('!commands')) {
     return message.channel.send('```Available commands are: ' +
       '\n!goodgoat' +
@@ -162,8 +167,8 @@ client.on('message', message => {
       '\n!ping' +
       '\n!marco' +
       '\n!colour #97dbc8' +
-      '\n!help' +
-      '\n!commands```');
+      '\n!help or !commands' +
+      '\n!version```');
   }
 });
 
