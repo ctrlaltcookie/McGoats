@@ -2,6 +2,7 @@ const {token} = require('./token');
 const Discord = require('discord.js');
 const Hangman = require('./hangman');
 const {Bleetify} = require('./bleetify');
+const convert = require('./convert');
 
 let gameState = {
   playing: false,
@@ -138,7 +139,8 @@ client.on('message', message => {
   }
 
   if (content.startsWith('!uptime')) {
-    return message.channel.send(Bleetify(`We've been up for ${client.uptime / 1000}s`, 20));
+    return message.channel.send(
+      Bleetify(`We've been up for ${convert.msToTime(client.uptime)}`, 20));
   }
 
   if (content.startsWith('!needssomeworkgoat')) {
