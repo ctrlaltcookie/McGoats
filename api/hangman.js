@@ -74,7 +74,13 @@ const reset = function () {
   };
 }
 
+const currentState = function(message, gamestate) {
+  return message.channel.send(`Current word: ${tick}${gamestate.mask}${tick} \n` +
+  guessedLetters(gamestate));
+}
+
 module.exports = {
+  currentState,
   play,
   reset,
   setup,
