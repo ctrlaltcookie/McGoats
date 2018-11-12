@@ -59,7 +59,7 @@ client.on('message', message => {
       gameState.word = setup.word;
       gameState.mask = setup.mask;
       gameState.playing = true;
-      return message.channel.send(Bleetify(`Lets play hangman, your word is ${gameState.mask.length} letters long, respond with !letter to play, like this: !a`, 20));
+      return message.channel.send(Bleetify(`Lets play hangman, your word is ${gameState.mask.length} letters long, respond with !letter to play, like this: !a`));
     }
 
     if (gameState.playing && content.startsWith('!hangman')) {
@@ -74,26 +74,26 @@ client.on('message', message => {
       if (username == 'pac') {
         message.react(message.client.emojis.find(emoji => emoji.name === 'spooderman2').id);
       }
-      return message.channel.send(Bleetify('Pong!', 20));
+      return message.channel.send(Bleetify('Pong!'));
     }
 
     if (content === '!pong') {
       if (username == 'absynthe') {
         message.react(message.client.emojis.find(emoji => emoji.name === 'rooAww').id);
       }
-      return message.channel.send(Bleetify('Ping!', 20));
+      return message.channel.send(Bleetify('Ping!'));
     }
 
     if (content === '!marco') {
       if (username == '🤖lightscamerazaction🤖') {
         message.react(message.client.emojis.find(emoji => emoji.name === 'tpride').id);
       }
-      return message.channel.send(Bleetify('Polo!', 20));
+      return message.channel.send(Bleetify('Polo!'));
     }
 
     if (content === '!polo') {
       message.react(message.client.emojis.find(emoji => emoji.name === 'happy').id);
-      return message.channel.send(Bleetify('Marco!', 20));
+      return message.channel.send(Bleetify('Marco!'));
     }
 
     if (content.startsWith('!colour')) {
@@ -102,7 +102,7 @@ client.on('message', message => {
       let role = message.member.highestRole;
       role.setColor(hex)
         .then(updated => {
-          message.channel.send(Bleetify(`Your colour is now ${hex}`, 20));
+          message.channel.send(Bleetify(`Your colour is now ${hex}`));
         })
         .catch(console.error);
     }
@@ -115,6 +115,10 @@ client.on('message', message => {
         goodgoat++;
       }
 
+      if (Util.getRand(213) === 1) {
+        message.author.reply(Bleetify('Good human!'));
+      }
+
       return message.react(message.client.emojis.find(emoji => emoji.name === 'cat1').id);
     }
 
@@ -124,6 +128,10 @@ client.on('message', message => {
       if (!consecutive) {
         badVoteHistory.push(username);
         badgoat++;
+      }
+
+      if (Util.getRand(213) === 1) {
+        message.author.reply(Bleetify('Bad human!'));
       }
 
       return message.react(message.client.emojis.find(emoji => emoji.name === 'eww').id);
@@ -145,17 +153,17 @@ client.on('message', message => {
         goatType = 'bad goat';
         emoteType = 'eww';
       }
-      return message.channel.send(Bleetify(`I've been a ${goatType} ${message.client.emojis.find(emoji => emoji.name === emoteType)}`, 20));
+      return message.channel.send(Bleetify(`I've been a ${goatType} ${message.client.emojis.find(emoji => emoji.name === emoteType)}`));
     }
 
     if (content.startsWith('!uptime')) {
       return message.channel.send(
-        Bleetify(`We've been up for ${Util.msToTime(client.uptime)}`, 20));
+        Bleetify(`We've been up for ${Util.msToTime(client.uptime)}`));
     }
 
     if (content.startsWith('!needssomeworkgoat')) {
       message.react(message.client.emojis.find(emoji => emoji.name === 'skull1').id);
-      return message.channel.send(Bleetify('I Came Out to Have a Good Time and I\'m Honestly Feeling So Attacked Right Now', 20));
+      return message.channel.send(Bleetify('I Came Out to Have a Good Time and I\'m Honestly Feeling So Attacked Right Now'));
     }
 
     if (content.startsWith('!sexygoat')) {
@@ -163,7 +171,7 @@ client.on('message', message => {
     }
 
     if (content.startsWith('!version')) {
-      return message.channel.send(Bleetify(`We're using v${Pjson.version}`, 20));
+      return message.channel.send(Bleetify(`We're using v${Pjson.version}`));
     }
 
     if (content.startsWith('!help') || content.startsWith('!commands')) {
@@ -183,7 +191,7 @@ client.on('message', message => {
         '\n!version```');
     }
   } catch (err) {
-    return message.channel.send(`*Cough*, *splutter*, @The Remi ${err}`);
+    return message.channel.send(Bleetify(`*Cough*, *splutter*, @The Remi ${err}`));
   }
 });
 
