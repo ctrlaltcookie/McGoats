@@ -50,7 +50,7 @@ client.on('message', message => {
       const command = content.split(' ').pop();
       const [iterations, dice] = command.split('d');
       const result = Dice.roll(dice, iterations);
-      return message.channel.send(Bleetify(`You rolled ${iterations} ${dice} sided dice and got: ${result}`));
+      return message.channel.send(Bleetify(`You rolled ${iterations}, ${dice} sided dice and got: ${result}`));
     }
 
     if (!gameState.playing && content.startsWith('!hangman')) {

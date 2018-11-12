@@ -6,14 +6,14 @@ const Util = require('../util');
  * @param {*} iterations Number of times to throw
  */
 const roll = function (dice, iterations) {
-  if (dice >= 100000000 || iterations >= 10000) {
-    return ` - nothing, cos you were being a dick, dice don't need 100000000 sides nor do you need to roll them 10k times, be sensible.`;
+  if (dice > 10000000 || iterations > 1000) {
+    return ` nothing, roll less than a 10000000 sided dice or less than 1k iterations.`;
   }
   let rolls = [];
   for(let i = 0; i < iterations; i++) {
     rolls.push(Util.getRand(dice));
   }
-  return rolls.join(', ');
+  return rolls.sort().join(', ');
 }
 
 rollHidden = function (dice, iterations, threshold) {
