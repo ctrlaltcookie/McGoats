@@ -168,15 +168,18 @@ client.on('message', message => {
 
     if (content.startsWith('!help') || content.startsWith('!commands')) {
       return message.channel.send('```Available commands are: ' +
-        '\n!goodgoat' +
         '\n!badgoat' +
-        '\n!count' +
-        '\n!hangman' +
-        '\n!uptime' +
-        '\n!ping' +
-        '\n!marco' +
+        '\n!goodgoat' +
         '\n!colour #97dbc8' +
+        '\n!count or !balance' +
+        '\n!hangman' +
         '\n!help or !commands' +
+        '\n!marco' +
+        '\n!polo' +
+        '\n!ping' +
+        '\n!pong' +
+        '\n!roll 10d6' +
+        '\n!uptime' +
         '\n!version```');
     }
   } catch (err) {
