@@ -1,3 +1,14 @@
+/**
+ * Returns a random number between 1 and max;
+ */
+function getRand(max) {
+  return Math.floor(Math.random() * (max - 1) + 1);
+}
+
+/**
+ * Converts miliseconds to time
+ * @param {*} s number of miliseconds
+ */
 const msToTime = function (s) {
 
   // Pad to 2 or 3 digits, default is 2
@@ -13,9 +24,10 @@ const msToTime = function (s) {
   var mins = s % 60;
   var hrs = (s - mins) / 60;
 
-  return pad(hrs) + ':' + pad(mins) + ':' + pad(secs) + '.' + pad(ms, 3);
+  return pad(hrs) + 'h:' + pad(mins) + 'm:' + pad(secs) + 's';
 }
 
 module.exports = {
+  getRand,
   msToTime
 }

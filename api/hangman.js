@@ -1,6 +1,7 @@
 const {Bleetify} = require('./bleetify');
 const Template = require('./hangmanTemplate');
 const {words} = require('./words');
+const Util = require('./util');
 const tick = '`'
 
 const play = function (message, gamestate) {
@@ -35,7 +36,7 @@ const guessedLetters = function (gamestate) {
 
 const setup = function () {
   const maxLength = words.length;
-  const index = getRand(maxLength);
+  const index = Util.getRand(maxLength);
   const word = words[index];
   return { word: word.toLowerCase(), mask: '_'.repeat(word.length) };
 }
@@ -55,13 +56,6 @@ const win = function (gamestate, message) {
   const word = gamestate.word;
   gamestate.playing = false;
   return message.channel.send(Bleetify(`${tick}${word}${tick}, ooooh! You got it!`, 20));
-}
-
-/**
- * Returns a random number between 1 and max;
- */
-function getRand(max) {
-  return Math.floor(Math.random() * (max - 1) + 1);
 }
 
 const reset = function () {

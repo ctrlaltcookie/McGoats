@@ -3,7 +3,7 @@
  * @param {*} word Required 
  * @param {*} threshold 
  */
-const bleet = function (word, threshold = 100) {
+const bleet = function (word, threshold = 20) {
   if (threshold < 1) {
     return word;
   }
