@@ -2,7 +2,7 @@
  * Returns a random number between 1 and max;
  */
 function getRand(max) {
-  return Math.floor(Math.random() * (max - 1) + 1);
+  return Math.floor(Math.random() * (max) + 1);
 }
 
 /**
