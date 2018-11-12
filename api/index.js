@@ -1,4 +1,4 @@
-const {Token} = require('./token');
+const {token} = require('./token');
 const Discord = require('discord.js');
 const Hangman = require('./hangman');
 const {Bleetify} = require('./bleetify');
@@ -209,4 +209,4 @@ const checkHistory = function (voteHistory, username, message) {
   return consecutive;
 }
 
-client.login(Token);
+client.login(token);
