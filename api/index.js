@@ -42,11 +42,11 @@ client.on('message', message => {
     const content = message.content.toLowerCase();
     const username = message.author.username.toLowerCase();
 
-    if(content === `!${gameState.word}`) {
+    if (gameState.playing && content === `!${gameState.word}`) {
       Hangman.win(gameState, message);
     }
 
-    if(content.startsWith('!roll')) {
+    if (content.startsWith('!roll')) {
       const command = content.split(' ').pop();
       const [iterations, dice] = command.split('d');
       const result = Dice.roll(dice, iterations);
