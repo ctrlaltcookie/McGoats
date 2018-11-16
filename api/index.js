@@ -137,6 +137,10 @@ client.on('message', message => {
       return message.react(message.client.emojis.find(emoji => emoji.name === 'eww').id);
     }
 
+    if (content.startsWith('!badDev') || content.startsWith('!badctrlaltcookie')) {
+      message.author.reply('Look here you little shit...');
+    }
+
     if (content.startsWith('!count') || content.startsWith('!balance')) {
       let goatType;
       let emoteType;
