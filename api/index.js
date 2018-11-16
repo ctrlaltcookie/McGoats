@@ -110,7 +110,7 @@ client.on('message', message => {
     if (content.startsWith('!goodgoat')) {
       const consecutive = checkHistory([...goodVoteHistory], username, message);
 
-      if (!consecutive) {
+      if (consecutive) {
         goodVoteHistory.push(username);
         goodgoat++;
       }
@@ -125,7 +125,7 @@ client.on('message', message => {
     if (content.startsWith('!badgoat')) {
       const consecutive = checkHistory([...badVoteHistory], username, message);
 
-      if (!consecutive) {
+      if (consecutive) {
         badVoteHistory.push(username);
         badgoat++;
       }
