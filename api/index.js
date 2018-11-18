@@ -17,8 +17,8 @@ let gameState = {
 let goodVoteHistory = [];
 let badVoteHistory = [];
 
-let goodgoat = 0;
-let badgoat = 0;
+let goodgoat = 1;
+let badgoat = 1;
 
 // Create an instance of a Discord client
 const client = new Discord.Client();
@@ -109,10 +109,11 @@ client.on('message', message => {
 
     if (content.startsWith('!goodgoat')) {
       const consecutive = checkHistory([...goodVoteHistory], username, message);
+      goodVoteHistory.push(username);
 
-      if (consecutive) {
-        goodVoteHistory.push(username);
+      if (!consecutive) {
         goodgoat++;
+        console.log(`Goodgoat ${goodgoat}`)
       }
 
       if (Util.getRand(213) === 1) {
@@ -124,10 +125,11 @@ client.on('message', message => {
 
     if (content.startsWith('!badgoat')) {
       const consecutive = checkHistory([...badVoteHistory], username, message);
+      badVoteHistory.push(username);
 
-      if (consecutive) {
-        badVoteHistory.push(username);
+      if (!consecutive) {
         badgoat++;
+        console.log(`Badgoat ${badgoat}`)
       }
 
       if (Util.getRand(213) === 1) {
@@ -149,7 +151,7 @@ client.on('message', message => {
         goatType = 'good goat';
         emoteType = 'happy';
       }
-      if (balance < 10 && balance > -10) {
+      if (balance < 10) {
         goatType = 'morally grey goat';
         emoteType = 'confusedTravolta';
       }
