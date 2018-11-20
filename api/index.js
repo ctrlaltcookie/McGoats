@@ -1,5 +1,7 @@
-const {token} = require('./token');
 const Discord = require('discord.js');
+const Fs = require('fs');
+
+const {token} = require('./token');
 const Hangman = require('./hangman');
 const {Bleetify} = require('./bleetify');
 const Pjson = require('../package.json');
@@ -14,14 +16,21 @@ let gameState = {
   mask: null
 }
 
+let savestate = {
+  goodgoat: 0,
+  badgoat: 0
+}
+
 let goodVoteHistory = [];
 let badVoteHistory = [];
 
-let goodgoat = 1;
-let badgoat = 1;
-
 // Create an instance of a Discord client
 const client = new Discord.Client();
+
+Fs.readFile('./data/savestate.json', 'utf8', (err, data) => {
+  savestate = JSON.parse(data);
+  console.log('state set')
+});
 
 /**
  * Setups up the ready event letting you know it's up
@@ -32,8 +41,13 @@ client.on('ready', () => {
   setInterval(() => {
     goodVoteHistory = [];
     badVoteHistory = [];
+    Fs.writeFile('./data/savestate.json', JSON.stringify(savestate), 'utf8', (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+    console.log('votes reset');
   }, halfAnHour);
-  console.log('votes reset');
 });
 
 // Create an event listener for messages
@@ -98,7 +112,6 @@ client.on('message', message => {
 
     if (content.startsWith('!colour')) {
       const hex = message.content.split(' ')[1];
-      console.log(hex);
       let role = message.member.highestRole;
       role.setColor(hex)
         .then(updated => {
@@ -112,8 +125,7 @@ client.on('message', message => {
       goodVoteHistory.push(username);
 
       if (!consecutive) {
-        goodgoat++;
-        console.log(`Goodgoat ${goodgoat}`)
+        savestate.goodgoat++;
       }
 
       if (Util.getRand(213) === 1) {
@@ -128,8 +140,7 @@ client.on('message', message => {
       badVoteHistory.push(username);
 
       if (!consecutive) {
-        badgoat++;
-        console.log(`Badgoat ${badgoat}`)
+        savestate.badgoat++;
       }
 
       if (Util.getRand(213) === 1) {
@@ -146,7 +157,7 @@ client.on('message', message => {
     if (content.startsWith('!count') || content.startsWith('!balance')) {
       let goatType;
       let emoteType;
-      const balance = goodgoat - badgoat;
+      const balance = savestate.goodgoat - savestate.badgoat;
       if (balance > 10) {
         goatType = 'good goat';
         emoteType = 'happy';
