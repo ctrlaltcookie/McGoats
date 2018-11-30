@@ -16,6 +16,7 @@ Though you should probably use pm2.
 
 # Upcoming features
 
+* Enriching dice rolling adding modifier supper and pass checks
 * PERSISTENCE - not just in fighting bugs and doing work after 8 hours of other work, but also, putting data on disk!
 * Score! - Yeah! Adding scores to things, so that you can like, build up score and use it to do things, relies on persistence existing
 * Hangman !fullword penalties - !fullword is OP, you need to spend some score to use it and if you get it wrong will not be allowed to !fullword again for the rest of this hangman session, it gives more score the earlier used, and is worth the same as a win when used 1 letter away from the end.

@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const Fs = require('fs');
 
 const {token} = require('./token');
-const Hangman = require('./hangman');
+const Hangman = require('./games/hangman');
 const {Bleetify} = require('./bleetify');
 const Pjson = require('../package.json');
 const Util = require('./util');
@@ -62,9 +62,27 @@ client.on('message', message => {
 
     if (content.startsWith('!roll')) {
       const command = content.split(' ').pop();
-      const [iterations, dice] = command.split('d');
-      const result = Dice.roll(dice, iterations);
-      return message.channel.send(Bleetify(`You rolled ${iterations}, ${dice} sided dice and got: ${result}`));
+      const [iterations, diceAndModifier] = command.split('d');
+
+      let dice, modifierAndChallenge;
+      if (diceAndModifier.includes('+')) {
+        [dice, modifierAndChallenge] = diceAndModifier.split('+');
+        modifierAndChallenge = '+' + modifierAndChallenge;
+      } else {
+        [dice, modifierAndChallenge] = diceAndModifier.split('-');
+        modifierAndChallenge = '-' + modifierAndChallenge;
+      }
+
+      let modifier, challenge;
+      if (modifierAndChallenge.includes('<')) {
+        [modifier, challenge] = modifierAndChallenge.split('<');
+        challenge = '<' + challenge;
+      } else {
+        [modifier, challenge] = modifierAndChallenge.split('>');
+        challenge = '>' + challenge;
+      }
+      const result = Dice.roll(dice, iterations, modifier, challenge);
+      return message.channel.send(Bleetify(`You rolled ${command} : ${result}`));
     }
 
     if (!gameState.playing && content.startsWith('!hangman')) {
@@ -189,6 +207,10 @@ client.on('message', message => {
 
     if (content.startsWith('!version')) {
       return message.channel.send(Bleetify(`We're using v${Pjson.version}`));
+    }
+
+    if (content.startsWith('!workingon')) {
+      return message.channel.send(Bleetify(`We're currently working on enriching dice rolling!`));
     }
 
     if (content.startsWith('!help') || content.startsWith('!commands')) {

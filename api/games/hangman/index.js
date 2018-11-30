@@ -1,7 +1,7 @@
-const {Bleetify} = require('./bleetify');
+const {Bleetify} = require('../../bleetify');
 const Template = require('./hangmanTemplate');
 const {words} = require('./words');
-const Util = require('./util');
+const Util = require('../../util');
 const tick = '`'
 
 const play = function (message, gamestate) {
