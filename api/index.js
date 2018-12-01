@@ -210,8 +210,9 @@ client.on('message', message => {
         '\n!polo' +
         '\n!ping' +
         '\n!pong' +
-        '\n!roll 10d6' +
+        '\n!roll 5d10+2 >8' +
         '\n!uptime' +
+        '\n!workingon' +
         '\n!version```');
     }
   } catch (err) {
