@@ -23,6 +23,8 @@ const roll = function (dice, iterations, modifier, challenge) {
     rolls.push(result);
   }
 
+  let results = rolls.sort().join(', ');
+
   if (challenge) {
     let successes = 0;
     if (challenge[0] === '>') {
@@ -38,10 +40,12 @@ const roll = function (dice, iterations, modifier, challenge) {
         }
       });
     }
-
-    return `${successes} successes`;
+    results += `, for ${successes} successes`;
   }
-  return rolls.sort().join(', ');
+  if (results === undefined || results === '') {
+    return 'nothing because you\'re being silly';
+  }
+  return results;
 }
 
 rollHidden = function (dice, iterations, threshold) {

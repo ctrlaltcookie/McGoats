@@ -61,28 +61,13 @@ client.on('message', message => {
     }
 
     if (content.startsWith('!roll')) {
-      const command = content.split(' ').pop();
-      const [iterations, diceAndModifier] = command.split('d');
-
-      let dice, modifierAndChallenge;
-      if (diceAndModifier.includes('+')) {
-        [dice, modifierAndChallenge] = diceAndModifier.split('+');
-        modifierAndChallenge = '+' + modifierAndChallenge;
-      } else {
-        [dice, modifierAndChallenge] = diceAndModifier.split('-');
-        modifierAndChallenge = '-' + modifierAndChallenge;
-      }
-
-      let modifier, challenge;
-      if (modifierAndChallenge.includes('<')) {
-        [modifier, challenge] = modifierAndChallenge.split('<');
-        challenge = '<' + challenge;
-      } else {
-        [modifier, challenge] = modifierAndChallenge.split('>');
-        challenge = '>' + challenge;
-      }
+      const command = stripBang(content);
+      const dice = getDice(command);
+      const challenge = getChallenge(command);
+      const iterations = getIterations(command);
+      const modifier = getModifier(command);
       const result = Dice.roll(dice, iterations, modifier, challenge);
-      return message.channel.send(Bleetify(`You rolled ${command} : ${result}`));
+      return message.channel.send(Bleetify(`You rolled ${command} and got; ${result}`));
     }
 
     if (!gameState.playing && content.startsWith('!hangman')) {
@@ -230,7 +215,7 @@ client.on('message', message => {
         '\n!version```');
     }
   } catch (err) {
-    return message.channel.send(Bleetify(`*Cough*, *splutter*, @The Remi ${err}`));
+    return message.channel.send(Bleetify(`*Cough*, *splutter*, @CtrlAltCookie#5716 ${err}`));
   }
 });
 
@@ -246,6 +231,73 @@ const checkHistory = function (voteHistory, username, message) {
   }
 
   return consecutive;
+}
+
+const stripBang = function (content) {
+  const command = content.split(' ');
+  command.shift();
+  return command.join('');
+}
+
+const getChallenge = function (command) {
+  if (command.includes('>')) {
+    return '>' + command.split('>').pop();
+  }
+  if (command.includes('<')) {
+    return '<' + command.split('<').pop();
+  }
+}
+
+const getDice = function (command) {
+  let dice = command.split('d').pop();
+  if (dice.includes('-')) {
+    dice = dice.split('-').shift();
+  }
+  if (dice.includes('+')) {
+    dice = dice.split('+').shift();
+  }
+  if (dice.includes('>')) {
+    dice = dice.split('>').shift();
+  }
+  if (dice.includes('<')) {
+    dice = dice.split('<').shift();
+  }
+  return dice;
+}
+
+const getIterations = function (command) {
+  let iterations = command.split('d').shift();
+  if (iterations.includes('-')) {
+    iterations = iterations.split('-').shift();
+  }
+  if (iterations.includes('+')) {
+    iterations = iterations.split('+').shift();
+  }
+  if (iterations.includes('>')) {
+    iterations = iterations.split('>').shift();
+  }
+  if (iterations.includes('<')) {
+    iterations = iterations.split('<').shift();
+  }
+  return iterations;
+}
+
+const getModifier = function (command) {
+  let modifier = command.split('d').pop();
+  if (modifier.includes('-')) {
+    modifier = '-' + modifier.split('-').pop();
+  } else if (modifier.includes('+')) {
+    modifier = '+' + modifier.split('+').pop();
+  } else {
+    modifier = null;
+  }
+  if (modifier && modifier.includes('>')) {
+    modifier = modifier.split('>').shift();
+  }
+  if (modifier && modifier.includes('<')) {
+    modifier = modifier.split('<').shift();
+  }
+  return modifier;
 }
 
 client.login(token);
