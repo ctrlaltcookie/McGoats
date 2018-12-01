@@ -195,7 +195,7 @@ client.on('message', message => {
     }
 
     if (content.startsWith('!workingon')) {
-      return message.channel.send(Bleetify(`We're currently working on enriching dice rolling!`));
+      return message.channel.send(Bleetify(`We're currently working on: a new game :o!`));
     }
 
     if (content.startsWith('!help') || content.startsWith('!commands')) {
