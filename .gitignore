@@ -63,3 +63,6 @@ typings/
 # Files and shit
 token.js
 .vscode/*
+
+# Data
+data
