@@ -48,16 +48,6 @@ const roll = function (dice, iterations, modifier, challenge) {
   return results;
 }
 
-rollHidden = function (dice, iterations, threshold) {
-  let success = false;
-  for(let i = 0; i < iterations; i++) {
-    if(Util.getRand(dice) >= threshold) {
-      success = true;
-    }
-  }
-  return success;
-}
-
 module.exports = {
   roll,
   rollHidden
