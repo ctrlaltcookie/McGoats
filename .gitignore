@@ -65,4 +65,4 @@ token.js
 .vscode/*
 
 # Data
-data
+data/
