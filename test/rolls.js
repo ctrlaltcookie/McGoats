@@ -34,12 +34,12 @@ describe('Dice tests', () => {
 
     it('should compare vs a positive modifier', () => {
       const result = Dice.roll(1, 1, null, '>2');
-      expect(result).to.be.equal('0 successes');
+      expect(result).to.be.equal('1, for 0 successes');
     });
 
     it('should compare vs a positive modifier', () => {
       const result = Dice.roll(1, 1, null, '<2');
-      expect(result).to.be.equal('1 successes');
+      expect(result).to.be.equal('1, for 1 successes');
     });
 
   })
