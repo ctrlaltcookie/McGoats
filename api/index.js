@@ -220,9 +220,11 @@ client.on('message', message => {
         '\n!ping' +
         '\n!pong' +
         '\n!roll 5d10+2 >8' +
+        '\n!role or !roles for information on how to set your role!' +
         '\n!uptime' +
         '\n!workingon' +
-        '\n!version```');
+        '\n!version```'
+        );
     }
   } catch (err) {
     return message.channel.send(Bleetify(`*Cough*, *splutter*, @CtrlAltCookie#5716 ${err}`));
