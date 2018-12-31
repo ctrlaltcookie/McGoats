@@ -1,12 +1,14 @@
 const Discord = require('discord.js');
 const Fs = require('fs');
 
-const {token} = require('./token');
-const Hangman = require('./games/hangman');
-const {Bleetify} = require('./bleetify');
-const Pjson = require('../package.json');
-const Util = require('./util');
+const { token } = require('./token');
+const { Bleetify } = require('./bleetify');
+
 const Dice = require('./dice');
+const Hangman = require('./games/hangman');
+const Pjson = require('../package.json');
+const { handleRoles } = require('./roles');
+const Util = require('./util');
 
 let gameState = {
   playing: false,
@@ -61,6 +63,10 @@ client.on('message', message => {
 
     if (gameState.playing && content === `!${gameState.word}`) {
       Hangman.win(gameState, message);
+    }
+
+    if (content.startsWith('!role')) {
+      handleRoles(message);
     }
 
     if (content.startsWith('!roll')) {
@@ -197,8 +203,8 @@ client.on('message', message => {
       return message.channel.send(Bleetify(`We're using v${Pjson.version}`));
     }
 
-    if (content.startsWith('!workingon')) {
-      return message.channel.send(Bleetify(`We're currently working on: a new game :o!`));
+    if (content.startsWith('!workingon') || content.startsWith('!upcoming')) {
+      return message.channel.send(Bleetify(`We're currently working on: !roles which will let you get shoutouts for games :3`));
     }
 
     if (content.startsWith('!help') || content.startsWith('!commands')) {
