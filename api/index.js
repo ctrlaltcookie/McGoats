@@ -38,17 +38,20 @@ Fs.readFile('./data/savestate.json', 'utf8', (err, data) => {
 client.on('ready', () => {
   console.log('I am ready!');
   const halfAnHour = 15 * 60 * 1000;
-  setInterval(() => {
-    goodVoteHistory = [];
-    badVoteHistory = [];
-    Fs.writeFile('./data/savestate.json', JSON.stringify(savestate), 'utf8', (err) => {
-      if (err) {
-        console.log(err);
-      }
-    });
-    console.log('votes reset');
-  }, halfAnHour);
+  setTimeout(resetVotes, halfAnHour);
 });
+
+const resetVotes = function () {
+  goodVoteHistory = [];
+  badVoteHistory = [];
+  Fs.writeFile('./data/savestate.json', JSON.stringify(savestate), 'utf8', (err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+  console.log('votes reset');
+  setTimeout(resetVotes, halfAnHour);
+}
 
 // Create an event listener for messages
 client.on('message', message => {
