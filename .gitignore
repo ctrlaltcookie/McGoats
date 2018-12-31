@@ -67,4 +67,5 @@ token/*
 .vscode/*
 
 # Data
-data/
+data/*
+savestate.json
