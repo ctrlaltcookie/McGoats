@@ -49,6 +49,5 @@ const roll = function (dice, iterations, modifier, challenge) {
 }
 
 module.exports = {
-  roll,
-  rollHidden
+  roll
 }
