@@ -30,7 +30,7 @@ let badVoteHistory = [];
 const client = new Discord.Client();
 
 Fs.readFile('./data/savestate.json', 'utf8', (err, data) => {
-  savestate = JSON.parse(data);
+  savestate = Object.assign(savestate, JSON.parse(data));
   console.log('state set')
 });
 
