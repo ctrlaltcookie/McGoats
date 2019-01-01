@@ -1,6 +1,6 @@
 {
   "name": "mcgoats",
-  "version": "1.13.1",
+  "version": "1.13.2",
   "description": "A discord bot for remi's server",
   "main": "index.js",
   "scripts": {
