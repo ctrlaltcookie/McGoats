@@ -34,14 +34,7 @@ Fs.readFile('./data/savestate.json', 'utf8', (err, data) => {
   console.log('state set')
 });
 
-/**
- * Setups up the ready event letting you know it's up
- */
-client.on('ready', () => {
-  console.log('I am ready!');
-  const halfAnHour = 15 * 60 * 1000;
-  setTimeout(resetVotes, halfAnHour);
-});
+const halfAnHour = 15 * 60 * 1000;
 
 const resetVotes = function () {
   goodVoteHistory = [];
@@ -54,6 +47,14 @@ const resetVotes = function () {
   console.log('votes reset');
   setTimeout(resetVotes, halfAnHour);
 }
+
+/**
+ * Setups up the ready event letting you know it's up
+ */
+client.on('ready', () => {
+  console.log('I am ready!');
+  setTimeout(resetVotes, halfAnHour);
+});
 
 // Create an event listener for messages
 client.on('message', message => {
