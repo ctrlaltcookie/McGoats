@@ -2,6 +2,7 @@ const Code = require('code');
 const Lab = require('lab');
 const Sinon = require('sinon');
 
+const Util = require('../../api/util');
 const Dice = require('../../api/dice');
 
 // Test shortcuts
@@ -21,12 +22,17 @@ describe('Dice tests', () => {
 
     it('should not roll with too many dice', () => {
       const result = Dice.roll(10000000001, 1, null, null);
-      expect(result).to.be.equal('nothing, roll less than a 10000000000 sided dice or less than 450 iterations.');
+      expect(result).to.equal('nothing, roll less than a 10000000000 sided dice or less than 450 iterations.');
     });
 
     it('should not roll with too many iterations', () => {
       const result = Dice.roll(10, 451, null, null);
-      expect(result).to.be.equal('nothing, roll less than a 10000000000 sided dice or less than 450 iterations.');
+      expect(result).to.equal('nothing, roll less than a 10000000000 sided dice or less than 450 iterations.');
+    });
+
+    it('should not return empty results when invalid inputs supplied', () => {
+      const result = Dice.roll('potato', 'and', 'leak', 'soup');
+      expect(result).to.equal('Please supply a valid format dice roll such as !roll 1d6+2>7');
     });
 
   });
@@ -35,29 +41,44 @@ describe('Dice tests', () => {
 
     it('should compare vs a positive modifier', () => {
       const result = Dice.roll(1, 1, '+2', null);
-      expect(result).to.be.equal('3');
+      expect(result).to.equal('3');
     });
   
     it('should compare vs a negative modifier', () => {
       const result = Dice.roll(1, 1, '-10', null);
-      expect(result).to.be.equal('-9');
+      expect(result).to.equal('-9');
     });
 
   });
 
   describe('challenege', () => {
 
-    before(() => {
+    describe('successes', () => {
+
+      it('should return 1 success for a successful challenge', () => {
+        const result = Dice.roll(1, 1, null, '<2');
+        expect(result).to.equal('1, for 1 successes');
+      });
+  
+      it('should return 1 success when challenged vs 0', () => {
+        const result = Dice.roll(1, 1, null, '>0');
+        expect(result).to.equal('1, for 1 successes');
+      });
+
     });
 
-    it('should compare vs a positive modifier', () => {
-      const result = Dice.roll(1, 1, null, '>2');
-      expect(result).to.be.equal('1, for 0 successes');
-    });
+    describe('failures', () => {
 
-    it('should compare vs a positive modifier', () => {
-      const result = Dice.roll(1, 1, null, '<2');
-      expect(result).to.be.equal('1, for 1 successes');
+      it('should return 0 successes vs an impossibly high challenge', () => {
+        const result = Dice.roll(1, 1, null, '>2');
+        expect(result).to.equal('1, for 0 successes');
+      });
+
+      it('should return 0 successes vs an impossibly low challenge', () => {
+        const result = Dice.roll(1, 1, null, '<-1');
+        expect(result).to.equal('1, for 0 successes');
+      });
+
     });
 
   })
