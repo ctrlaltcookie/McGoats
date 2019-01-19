@@ -1,5 +1,6 @@
 const Code = require('code');
 const Lab = require('lab');
+const Sinon = require('sinon');
 
 const Dice = require('../../api/dice');
 
@@ -16,6 +17,20 @@ const expect = Code.expect;
 
 describe('Dice tests', () => {
 
+  describe('with errors', () => {
+
+    it('should not roll with too many dice', () => {
+      const result = Dice.roll(10000000001, 1, null, null);
+      expect(result).to.be.equal('nothing, roll less than a 10000000000 sided dice or less than 450 iterations.');
+    });
+
+    it('should not roll with too many iterations', () => {
+      const result = Dice.roll(10, 451, null, null);
+      expect(result).to.be.equal('nothing, roll less than a 10000000000 sided dice or less than 450 iterations.');
+    });
+
+  });
+
   describe('modifiers', () => {
 
     it('should compare vs a positive modifier', () => {
@@ -31,6 +46,9 @@ describe('Dice tests', () => {
   });
 
   describe('challenege', () => {
+
+    before(() => {
+    });
 
     it('should compare vs a positive modifier', () => {
       const result = Dice.roll(1, 1, null, '>2');

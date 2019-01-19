@@ -2,17 +2,21 @@ const Util = require('../util');
 
 /**
  * Throws an x sided dice y times
- * @param {int} dice Number of sides on the dice
- * @param {int} iterations Number of times to throw
- * @param {int} modifier 
+ * @param {int} sides Number of sides on the dice
+ * @param {int} diceToRoll Number of dice to roll
+ * @param {int} modifier The modifier being added to the roll
+ * @param {int} challenge The number to beat for a successful roll
  */
-const roll = function (dice, iterations, modifier, challenge) {
-  if (dice > 10000000000 || iterations > 450) {
+const roll = function (sides, diceToRoll, modifier, challenge) {
+
+  if (sides > 10000000000 || diceToRoll > 450) {
     return `nothing, roll less than a 10000000000 sided dice or less than 450 iterations.`;
   }
+
   let rolls = [];
-  for (let i = 0; i < iterations; i++) {
-    let result = Util.getRand(dice)
+
+  for (let i = 0; i < diceToRoll; i++) {
+    let result = Util.getRand(sides)
     if (modifier) {
       if (modifier[0] === '-') {
         result -= parseInt(modifier.split('-').pop(), 10);
@@ -42,9 +46,11 @@ const roll = function (dice, iterations, modifier, challenge) {
     }
     results += `, for ${successes} successes`;
   }
+
   if (results === undefined || results === '') {
     return 'nothing because you\'re being silly';
   }
+
   return results;
 }
 

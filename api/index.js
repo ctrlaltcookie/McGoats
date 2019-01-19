@@ -75,11 +75,11 @@ client.on('message', message => {
 
     if (content.startsWith('!roll')) {
       const command = stripBang(content);
-      const dice = getDice(command);
+      const numSides = getNumSides(command);
       const challenge = getChallenge(command);
-      const iterations = getIterations(command);
+      const diceToRoll = getIterations(command);
       const modifier = getModifier(command);
-      const result = Dice.roll(dice, iterations, modifier, challenge);
+      const result = Dice.roll(numSides, diceToRoll, modifier, challenge);
       return message.channel.send(Bleetify(`You rolled ${command} and got; ${result}`));
     }
 
@@ -267,7 +267,7 @@ const getChallenge = function (command) {
   }
 }
 
-const getDice = function (command) {
+const getNumSides = function (command) {
   let dice = command.split('d').pop();
   if (dice.includes('-')) {
     dice = dice.split('-').shift();
