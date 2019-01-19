@@ -1,17 +1,11 @@
 const Code = require('code');
 const Lab = require('lab');
-const Sinon = require('sinon');
 
-const Util = require('../../api/util');
 const Dice = require('../../api/dice');
 
 // Test shortcuts
 
 const lab = exports.lab = Lab.script();
-const before = lab.before;
-const after = lab.after;
-const beforeEach = lab.beforeEach;
-const afterEach = lab.afterEach;
 const describe = lab.describe;
 const it = lab.it;
 const expect = Code.expect;
