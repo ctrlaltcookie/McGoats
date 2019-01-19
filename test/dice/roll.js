@@ -1,7 +1,7 @@
 const Code = require('code');
 const Lab = require('lab');
 
-const Dice = require('../api/dice');
+const Dice = require('../../api/dice');
 
 // Test shortcuts
 

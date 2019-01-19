@@ -30,6 +30,10 @@ let badVoteHistory = [];
 const client = new Discord.Client();
 
 Fs.readFile('./data/savestate.json', 'utf8', (err, data) => {
+  if (err) {
+    console.log(err);
+    process.exit(1);
+  }
   savestate = Object.assign(savestate, JSON.parse(data));
   console.log('state set')
 });
@@ -43,9 +47,8 @@ const resetVotes = function () {
     if (err) {
       console.log(err);
     }
+    setTimeout(resetVotes, halfAnHour);
   });
-  console.log('votes reset');
-  setTimeout(resetVotes, halfAnHour);
 }
 
 /**
@@ -228,7 +231,10 @@ client.on('message', message => {
         );
     }
   } catch (err) {
-    return message.channel.send(Bleetify(`*Cough*, *splutter*, @CtrlAltCookie#5716 ${err}`));
+    console.log(err);
+    message.channel.send(Bleetify(`*Cough*, *splutter*, @CtrlAltCookie#5716 ${err}`)).then(() => {
+      process.exit(1);
+    });
   }
 });
 
@@ -314,3 +320,9 @@ const getModifier = function (command) {
 }
 
 client.login(token);
+
+process.on('uncaughtException', function (err) {
+  console.error((new Date).toUTCString() + ' uncaughtException:', err.message)
+  console.error(err.stack)
+  process.exit(1)
+})
