@@ -1,3 +1,5 @@
+const Moment = require('moment');
+
 /**
  * Returns a random number between 1 and max;
  */
@@ -7,24 +9,11 @@ function getRand(max) {
 
 /**
  * Converts miliseconds to time
- * @param {*} s number of miliseconds
+ * @param {*} ms number of miliseconds
  */
-const msToTime = function (s) {
-
-  // Pad to 2 or 3 digits, default is 2
-  function pad(n, z) {
-    z = z || 2;
-    return ('00' + n).slice(-z);
-  }
-
-  var ms = s % 1000;
-  s = (s - ms) / 1000;
-  var secs = s % 60;
-  s = (s - secs) / 60;
-  var mins = s % 60;
-  var hrs = (s - mins) / 60;
-
-  return pad(hrs) + 'h:' + pad(mins) + 'm:' + pad(secs) + 's';
+const msToTime = function (ms) {
+  const uptime = Moment.duration(ms);
+  return uptime.humanize();
 }
 
 module.exports = {
