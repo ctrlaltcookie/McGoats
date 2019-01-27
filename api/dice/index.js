@@ -19,10 +19,10 @@ const roll = function (sides, diceToRoll, modifier, challenge) {
     return validation;
   }
 
-  let rolls = [];
+  const rolls = [];
 
   for (let i = 0; i < diceToRoll; i++) {
-    let result = Util.getRand(sides)
+    let result = Util.getRand(sides);
     if (modifier) {
       if (modifier[0] === '-') {
         result -= parseInt(modifier.split('-').pop(), 10);
@@ -33,7 +33,7 @@ const roll = function (sides, diceToRoll, modifier, challenge) {
     rolls.push(result);
   }
 
-  let results = rolls.sort().join(', ');
+  let results = rolls.sort((a,b) => a - b).join(', ');
 
   if (challenge) {
     let successes = 0;
@@ -54,7 +54,7 @@ const roll = function (sides, diceToRoll, modifier, challenge) {
   }
 
   return results;
-}
+};
 
 const validateInputs = function (sides, diceToRoll, modifier, challenge) {
   const sidesParsed = parseInt(sides, 10);
@@ -70,8 +70,8 @@ const validateInputs = function (sides, diceToRoll, modifier, challenge) {
   if (isNaN(sidesParsed + diceParsed + modifierParsed + challengeParsed)) {
     return 'Please supply a valid format dice roll such as !roll 1d6+2>7';
   }
-}
+};
 
 module.exports = {
   roll
-}
+};

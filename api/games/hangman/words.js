@@ -240,4 +240,4 @@ module.exports = {
     "wanderlust",
     "whereabouts"
   ]
-}
+};

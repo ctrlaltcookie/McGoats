@@ -3,11 +3,11 @@ const Fs = require('fs');
 
 const { token } = require('./token');
 const { Bleetify } = require('./bleetify');
+const { handleRoles } = require('./roles');
 
 const Dice = require('./dice');
 const Hangman = require('./games/hangman');
 const Pjson = require('../package.json');
-const { handleRoles } = require('./roles');
 const Util = require('./util');
 
 let gameState = {
@@ -16,12 +16,12 @@ let gameState = {
   guessedLetters: {},
   turn: 0,
   mask: null
-}
+};
 
 let savestate = {
   goodgoat: 0,
   badgoat: 0
-}
+};
 
 let goodVoteHistory = [];
 let badVoteHistory = [];
@@ -31,11 +31,12 @@ const client = new Discord.Client();
 
 Fs.readFile('./data/savestate.json', 'utf8', (err, data) => {
   if (err) {
-    console.log(err);
+    console.log('this was caused by file systems read');
+    console.log(JSON.stringify(err));
     process.exit(1);
   }
   savestate = Object.assign(savestate, JSON.parse(data));
-  console.log('state set')
+  console.log('state set');
 });
 
 const halfAnHour = 15 * 60 * 1000;
@@ -45,11 +46,13 @@ const resetVotes = function () {
   badVoteHistory = [];
   Fs.writeFile('./data/savestate.json', JSON.stringify(savestate), 'utf8', (err) => {
     if (err) {
-      console.log(err);
+      console.log('this was caused by file systems write');
+      console.log(JSON.stringify(err));
+      process.exit(1);
     }
     setTimeout(resetVotes, halfAnHour);
   });
-}
+};
 
 /**
  * Setups up the ready event letting you know it's up
@@ -128,7 +131,7 @@ client.on('message', message => {
 
     if (content.startsWith('!colour')) {
       const hex = message.content.split(' ')[1];
-      let role = message.member.highestRole;
+      const role = message.member.highestRole;
       role.setColor(hex)
         .then(updated => {
           message.channel.send(Bleetify(`Your colour is now ${hex}`));
@@ -231,17 +234,25 @@ client.on('message', message => {
         );
     }
   } catch (err) {
-    console.log(err);
+    console.log(JSON.stringify(err));
     message.channel.send(Bleetify(`*Cough*, *splutter*, @CtrlAltCookie#5716 ${err}`)).then(() => {
-      process.exit(1);
+      console.log('this was caused by user error');
+      console.log(JSON.stringify(err));
     });
   }
+});
+
+client.on('error', (err) => {
+  const logStream = Fs.createWriteStream('../data/log.txt', { 'flags': 'a' });
+  logStream.write(`Last seen: ${new Date().toISOString()}`);
+  logStream.write(err);
+  logStream.end('##########');
 });
 
 const checkHistory = function (voteHistory, username, message) {
   const oneVotePrevious = voteHistory.pop();
   const twoVotesPrevious = voteHistory.pop();
-  const consecutive = oneVotePrevious === username && twoVotesPrevious === username
+  const consecutive = oneVotePrevious === username && twoVotesPrevious === username;
 
   if (consecutive) {
     message.reply("Please don't spam votes, baa!").then(msg => {
@@ -250,13 +261,13 @@ const checkHistory = function (voteHistory, username, message) {
   }
 
   return consecutive;
-}
+};
 
 const stripBang = function (content) {
   const command = content.split(' ');
   command.shift();
   return command.join('');
-}
+};
 
 const getChallenge = function (command) {
   if (command.includes('>')) {
@@ -265,7 +276,7 @@ const getChallenge = function (command) {
   if (command.includes('<')) {
     return '<' + command.split('<').pop();
   }
-}
+};
 
 const getNumSides = function (command) {
   let dice = command.split('d').pop();
@@ -282,7 +293,7 @@ const getNumSides = function (command) {
     dice = dice.split('<').shift();
   }
   return dice;
-}
+};
 
 const getIterations = function (command) {
   let iterations = command.split('d').shift();
@@ -299,7 +310,7 @@ const getIterations = function (command) {
     iterations = iterations.split('<').shift();
   }
   return iterations;
-}
+};
 
 const getModifier = function (command) {
   let modifier = command.split('d').pop();
@@ -317,12 +328,6 @@ const getModifier = function (command) {
     modifier = modifier.split('<').shift();
   }
   return modifier;
-}
+};
 
 client.login(token);
-
-process.on('uncaughtException', function (err) {
-  console.error((new Date).toUTCString() + ' uncaughtException:', err.message)
-  console.error(err.stack)
-  process.exit(1)
-})

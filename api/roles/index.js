@@ -5,7 +5,7 @@ const roles = {
   rpgDM: 'rpg-dm',
   overWatch: 'overwatch',
   streamViewer: 'stream-viewer'
-}
+};
 
 const handleRoles = function (message) {
   const content = message.content.toLowerCase();
@@ -29,17 +29,17 @@ Then use \@role to alert all players with this role assigned!
   Object.keys(roles).forEach(key => {
     const roleName = roles[key];
     if (content.includes(roleName)) {
-      let role = guildRoles.find(r => r.name === roleName);
+      const role = guildRoles.find(r => r.name === roleName);
       member.addRole(role).catch(console.error);
       return bleetRole(message, roleName);
     }
   });
-}
+};
 
 const bleetRole = function (message, roleName) {
   return message.channel.send(Bleetify(`Set your role to ${roleName}`));
-}
+};
 
 module.exports = {
   handleRoles
-}
+};

@@ -20,5 +20,6 @@ describe('BlankTest', () => {
       expect(true).to.equal(true);
     });
 
-  })
+  });
+
 });

@@ -1,14 +1,18 @@
 const Code = require('code');
 const Lab = require('lab');
+const Sinon = require('sinon');
 
 const Dice = require('../../api/dice');
+const Util = require('../../api/util');
 
 // Test shortcuts
 
-const lab = exports.lab = Lab.script();
-const describe = lab.describe;
-const it = lab.it;
 const expect = Code.expect;
+const lab = exports.lab = Lab.script();
+const it = lab.it;
+const describe = lab.describe;
+const afterEach = lab.afterEach;
+const beforeEach = lab.beforeEach;
 
 describe('Dice tests', () => {
 
@@ -37,7 +41,7 @@ describe('Dice tests', () => {
       const result = Dice.roll(1, 1, '+2', null);
       expect(result).to.equal('3');
     });
-  
+
     it('should compare vs a negative modifier', () => {
       const result = Dice.roll(1, 1, '-10', null);
       expect(result).to.equal('-9');
@@ -53,7 +57,7 @@ describe('Dice tests', () => {
         const result = Dice.roll(1, 1, null, '<2');
         expect(result).to.equal('1, for 1 successes');
       });
-  
+
       it('should return 1 success when challenged vs 0', () => {
         const result = Dice.roll(1, 1, null, '>0');
         expect(result).to.equal('1, for 1 successes');
@@ -75,6 +79,24 @@ describe('Dice tests', () => {
 
     });
 
-  })
+  });
+
+  describe('sort order', () => {
+
+    beforeEach(() => {
+      let num = 10;
+      Sinon.stub(Util, 'getRand').callsFake(() => num--);
+    });
+
+    afterEach(() => {
+      Util.getRand.restore();
+    });
+
+    it('should sort lowest to highest', () => {
+      const result = Dice.roll(10, 10, null, null);
+      expect(result).to.equal('1, 2, 3, 4, 5, 6, 7, 8, 9, 10');
+    });
+
+  });
 
 });
