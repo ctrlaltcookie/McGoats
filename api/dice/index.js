@@ -72,6 +72,84 @@ const validateInputs = function (sides, diceToRoll, modifier, challenge) {
   }
 };
 
+
+const _stripBang = function (content) {
+  const command = content.split(' ');
+  command.shift();
+  return command.join('');
+};
+
+const _getChallenge = function (command) {
+  if (command.includes('>')) {
+    return '>' + command.split('>').pop();
+  }
+  if (command.includes('<')) {
+    return '<' + command.split('<').pop();
+  }
+};
+
+const _getNumSides = function (command) {
+  let dice = command.split('d').pop();
+  if (dice.includes('-')) {
+    dice = dice.split('-').shift();
+  }
+  if (dice.includes('+')) {
+    dice = dice.split('+').shift();
+  }
+  if (dice.includes('>')) {
+    dice = dice.split('>').shift();
+  }
+  if (dice.includes('<')) {
+    dice = dice.split('<').shift();
+  }
+  return dice;
+};
+
+const _getIterations = function (command) {
+  let iterations = command.split('d').shift();
+  if (iterations.includes('-')) {
+    iterations = iterations.split('-').shift();
+  }
+  if (iterations.includes('+')) {
+    iterations = iterations.split('+').shift();
+  }
+  if (iterations.includes('>')) {
+    iterations = iterations.split('>').shift();
+  }
+  if (iterations.includes('<')) {
+    iterations = iterations.split('<').shift();
+  }
+  return iterations;
+};
+
+const _getModifier = function (command) {
+  let modifier = command.split('d').pop();
+  if (modifier.includes('-')) {
+    modifier = '-' + modifier.split('-').pop();
+  } else if (modifier.includes('+')) {
+    modifier = '+' + modifier.split('+').pop();
+  } else {
+    modifier = null;
+  }
+  if (modifier && modifier.includes('>')) {
+    modifier = modifier.split('>').shift();
+  }
+  if (modifier && modifier.includes('<')) {
+    modifier = modifier.split('<').shift();
+  }
+  return modifier;
+};
+
+const getDiceOptions = function (content) {
+  const command = _stripBang(content);
+  const numSides = _getNumSides(command);
+  const challenge = _getChallenge(command);
+  const diceToRoll = _getIterations(command);
+  const modifier = _getModifier(command);
+  return { command, numSides, challenge, diceToRoll, modifier };
+};
+
 module.exports = {
+  getDiceOptions,
   roll
 };

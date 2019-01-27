@@ -10,7 +10,7 @@ const Hangman = require('./games/hangman');
 const Pjson = require('../package.json');
 const Util = require('./util');
 
-let gameState = {
+let hangmanState = {
   playing: false,
   word: null,
   guessedLetters: {},
@@ -68,8 +68,8 @@ client.on('message', message => {
     const content = message.content.toLowerCase();
     const username = message.author.username.toLowerCase();
 
-    if (gameState.playing && content === `!${gameState.word}`) {
-      Hangman.win(gameState, message);
+    if (hangmanState.playing && content === `!${hangmanState.word}`) {
+      Hangman.win(hangmanState, message);
     }
 
     if (content.startsWith('!role')) {
@@ -77,30 +77,26 @@ client.on('message', message => {
     }
 
     if (content.startsWith('!roll')) {
-      const command = stripBang(content);
-      const numSides = getNumSides(command);
-      const challenge = getChallenge(command);
-      const diceToRoll = getIterations(command);
-      const modifier = getModifier(command);
+      const { numSides, diceToRoll, modifier, challenge, command } = Dice.getDiceOptions(content);
       const result = Dice.roll(numSides, diceToRoll, modifier, challenge);
       return message.channel.send(Bleetify(`You rolled ${command} and got; ${result}`));
     }
 
-    if (!gameState.playing && content.startsWith('!hangman')) {
-      gameState = Hangman.reset();
+    if (!hangmanState.playing && content.startsWith('!hangman')) {
+      hangmanState = Hangman.reset();
       const setup = Hangman.setup();
-      gameState.word = setup.word;
-      gameState.mask = setup.mask;
-      gameState.playing = true;
-      return message.channel.send(Bleetify(`Lets play hangman, your word is ${gameState.mask.length} letters long, respond with !letter to play, like this: !a`));
+      hangmanState.word = setup.word;
+      hangmanState.mask = setup.mask;
+      hangmanState.playing = true;
+      return message.channel.send(Bleetify(`Lets play hangman, your word is ${hangmanState.mask.length} letters long, respond with !letter to play, like this: !a`));
     }
 
-    if (gameState.playing && content.startsWith('!hangman')) {
-      return Hangman.currentState(message, gameState);
+    if (hangmanState.playing && content.startsWith('!hangman')) {
+      return Hangman.currentState(message, hangmanState);
     }
 
-    if (gameState.playing && content.startsWith('!') && content.length < 3) {
-      return Hangman.play(message, gameState);
+    if (hangmanState.playing && content.startsWith('!') && content.length < 3) {
+      return Hangman.play(message, hangmanState);
     }
 
     if (content === '!ping') {
@@ -211,7 +207,7 @@ client.on('message', message => {
     }
 
     if (content.startsWith('!workingon') || content.startsWith('!upcoming')) {
-      return message.channel.send(Bleetify(`We're currently working on: !roles which will let you get shoutouts for games :3`));
+      return message.channel.send(Bleetify(`We're currently working on: maintainability! This grew really fast and needs fixing!`));
     }
 
     if (content.startsWith('!help') || content.startsWith('!commands')) {
@@ -262,73 +258,6 @@ const checkHistory = function (voteHistory, username, message) {
   }
 
   return consecutive;
-};
-
-const stripBang = function (content) {
-  const command = content.split(' ');
-  command.shift();
-  return command.join('');
-};
-
-const getChallenge = function (command) {
-  if (command.includes('>')) {
-    return '>' + command.split('>').pop();
-  }
-  if (command.includes('<')) {
-    return '<' + command.split('<').pop();
-  }
-};
-
-const getNumSides = function (command) {
-  let dice = command.split('d').pop();
-  if (dice.includes('-')) {
-    dice = dice.split('-').shift();
-  }
-  if (dice.includes('+')) {
-    dice = dice.split('+').shift();
-  }
-  if (dice.includes('>')) {
-    dice = dice.split('>').shift();
-  }
-  if (dice.includes('<')) {
-    dice = dice.split('<').shift();
-  }
-  return dice;
-};
-
-const getIterations = function (command) {
-  let iterations = command.split('d').shift();
-  if (iterations.includes('-')) {
-    iterations = iterations.split('-').shift();
-  }
-  if (iterations.includes('+')) {
-    iterations = iterations.split('+').shift();
-  }
-  if (iterations.includes('>')) {
-    iterations = iterations.split('>').shift();
-  }
-  if (iterations.includes('<')) {
-    iterations = iterations.split('<').shift();
-  }
-  return iterations;
-};
-
-const getModifier = function (command) {
-  let modifier = command.split('d').pop();
-  if (modifier.includes('-')) {
-    modifier = '-' + modifier.split('-').pop();
-  } else if (modifier.includes('+')) {
-    modifier = '+' + modifier.split('+').pop();
-  } else {
-    modifier = null;
-  }
-  if (modifier && modifier.includes('>')) {
-    modifier = modifier.split('>').shift();
-  }
-  if (modifier && modifier.includes('<')) {
-    modifier = modifier.split('<').shift();
-  }
-  return modifier;
 };
 
 client.login(token);
