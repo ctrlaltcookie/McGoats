@@ -243,10 +243,10 @@ client.on('message', message => {
 });
 
 client.on('error', (err) => {
-  const logStream = Fs.createWriteStream('../data/log.txt', { 'flags': 'a' });
-  logStream.write(`Last seen: ${new Date().toISOString()}`);
-  logStream.write(err);
-  logStream.end('##########');
+  const logStream = Fs.createWriteStream('./data/log.txt', { flags: 'a' });
+  logStream.write(`Last seen: ${new Date().toISOString()}
+  ${err}`);
+  logStream.end();
 });
 
 const checkHistory = function (voteHistory, username, message) {
