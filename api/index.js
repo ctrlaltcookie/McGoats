@@ -23,6 +23,84 @@ let savestate = {
   badgoat: 0
 };
 
+const routes = {
+  badgoat: {
+    name: 'badgoat',
+    description: 'downvote the goat :(',
+    command: '!badgoat',
+    example: '!badgoat'
+  },
+  balance: {
+    name: 'balance',
+    description: 'the goats status, how good or bad it\'s has been, synonymous with !count',
+    command: '!balance',
+    example: '!balance or !count'
+  },
+  colour: {
+    name: 'colour',
+    description: 'change your name colour',
+    command: '!colour',
+    example: '!colour #97dbc8'
+  },
+  commands: {
+    name: 'commands',
+    description: 'lists the available commands synonymous with !help without ',
+    command: '!commands',
+    example: '!commands'
+  },
+  count: {
+    name: 'count',
+    description: 'the goats status, how good or bad it\'s has been, synonymous with !balance',
+    command: '!count',
+    example: '!count or !balance'
+  },
+  goodgoat: {
+    name: 'goodgoat',
+    description: 'upvote the goat! :3',
+    command: '!goodgoat',
+    example: '!goodgoat'
+  },
+  hangman: {
+    name: 'hangman',
+    description: 'start a game of hangman or find out about the status of a game',
+    command: '!hangman',
+    example: '!hangman or a letter like !a !p !u'
+  },
+  help: {
+    name: 'help',
+    description: 'lists all available commands or if you specify a command the help for that command',
+    command: '!help',
+    example: '!help or !help goodgoat'
+  },
+  ping: {
+    name: 'ping',
+    description: 'responds with pong',
+    command: '!ping',
+    example: '!ping'
+  },
+  pong: {
+    name: 'pong',
+    description: 'responds with ping',
+    command: '!pong',
+    example: '!pong'
+  },
+  role: {
+    name: 'role',
+    description: 'Set your role to one of the available non-admin roles'
+  },
+  roll: {
+    name: 'roll',
+    description: 'roll a number of dice, with specific size, targets to get above or below and modifiers you can add',
+    command: '!roll',
+    example: '!roll 2d10>8+2 you\'re rolling a 2, 10 sided dice, aiming for 8 or higher and +2 to each of your rolls'
+  }
+};
+
+//         '\n!role or !roles for information on how to set your role!' +
+//         '\n!uptime' +
+//         '\n!workingon' +
+//         '\n!version
+
 let goodVoteHistory = [];
 let badVoteHistory = [];
 
@@ -211,23 +289,7 @@ client.on('message', message => {
     }
 
     if (content.startsWith('!help') || content.startsWith('!commands')) {
-      return message.channel.send('```Available commands are: ' +
-        '\n!badgoat' +
-        '\n!goodgoat' +
-        '\n!colour #97dbc8' +
-        '\n!count or !balance' +
-        '\n!hangman' +
-        '\n!help or !commands' +
-        '\n!marco' +
-        '\n!polo' +
-        '\n!ping' +
-        '\n!pong' +
-        '\n!roll 5d10+2 >8' +
-        '\n!role or !roles for information on how to set your role!' +
-        '\n!uptime' +
-        '\n!workingon' +
-        '\n!version```'
-        );
+      return message.channel.send('```Available commands are: ```');
     }
   } catch (err) {
     console.log(JSON.stringify(err));

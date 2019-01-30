@@ -1,5 +1,7 @@
 const Util = require('../util');
 
+const formatError = 'Please supply a valid format dice roll such as !roll 1d6+2>7';
+
 /**
  * Throws an x sided dice y times
  * @param {int} sides Number of sides on the dice
@@ -9,8 +11,12 @@ const Util = require('../util');
  */
 const roll = function (sides, diceToRoll, modifier, challenge) {
 
+  if (sides === null || diceToRoll === null) {
+    return formatError;
+  }
+
   if (sides > 10000000000 || diceToRoll > 450) {
-    return `nothing, roll less than a 10000000000 sided dice or less than 450 iterations.`;
+    return 'nothing, roll less than a 10000000000 sided dice or less than 450 iterations.';
   }
 
   const validation = validateInputs(sides, diceToRoll, modifier, challenge);
@@ -68,7 +74,7 @@ const validateInputs = function (sides, diceToRoll, modifier, challenge) {
     challengeParsed = (challenge[0] === '>') ? parseInt(challenge.split('>').pop(), 10) : parseInt(challenge.split('<').pop(), 10);
   }
   if (isNaN(sidesParsed + diceParsed + modifierParsed + challengeParsed)) {
-    return 'Please supply a valid format dice roll such as !roll 1d6+2>7';
+    return formatError;
   }
 };
 
