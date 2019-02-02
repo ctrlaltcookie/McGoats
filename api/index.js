@@ -86,20 +86,35 @@ const routes = {
   },
   role: {
     name: 'role',
-    description: 'Set your role to one of the available non-admin roles'
+    description: 'Set your role to one of the available non-admin roles',
+    command: '!role',
+    example: '!role overwatch'
   },
   roll: {
     name: 'roll',
     description: 'roll a number of dice, with specific size, targets to get above or below and modifiers you can add',
     command: '!roll',
-    example: '!roll 2d10>8+2 you\'re rolling a 2, 10 sided dice, aiming for 8 or higher and +2 to each of your rolls'
+    example: '!roll 2d10>8+2 you\'re rolling 2 dice that have 10 sides, aiming for 8 or higher and +2 to each of your rolls'
+  },
+  uptime: {
+    name: 'uptime',
+    description: 'how long the server has been up, how long the goat has been awake',
+    command: '!uptime',
+    example: '!uptime - Baa, we\'ve been up for 2 days'
+  },
+  version: {
+    name: 'version',
+    description: 'what version we are running, this is important for debugging',
+    command: '!version',
+    example: '!version - v3.0.2'
+  },
+  workingon: {
+    name: 'working on',
+    description: 'what we are currently working on, upcoming features or fixes',
+    command: '!workingon',
+    example: '!workingon - We\'re currently working on: maintainability! This grew really fast and needs fixing!'
   }
 };
-
-//         '\n!role or !roles for information on how to set your role!' +
-//         '\n!uptime' +
-//         '\n!workingon' +
-//         '\n!version
 
 let goodVoteHistory = [];
 let badVoteHistory = [];
