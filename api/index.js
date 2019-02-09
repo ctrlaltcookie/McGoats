@@ -244,8 +244,9 @@ client.on('message', message => {
 
 client.on('error', (err) => {
   const logStream = Fs.createWriteStream('./data/log.txt', { flags: 'a' });
-  logStream.write(`Last seen: ${new Date().toISOString()}
-  ${err}`);
+  logStream.write(`
+  Last seen: ${new Date().toISOString()}
+  Unknown client error`);
   logStream.end();
 });
 

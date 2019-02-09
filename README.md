@@ -1,23 +1,23 @@
 # McGoats
 
-McGoats is a discord bot for the Totes discord server built by CtrlAltCookie for the purpose of games and implementing missing discord features. Currently the only game is hangman however more games are going to be added, with score tracking and leaderboards.
+McGoats is a discord bot for the Totes discord server built by [Remi](https://www.twitter.com/ctrlaltcookie) for adding missing discord functionality. Includes a hangman game.
 
 # Tests
 
-Due to a lack of mocking and some particularly leaky abstractions there are currently no tests.
+Testing is done with [Labjs](https://github.com/hapijs/lab) and can be run with `npm test`
 
 # Runnage
+
+You can run this bot as you normally would any node project:
 
 ```bash
 $ node index.js
 ```
 
-Though you should probably use pm2.
+I'd suggest using a process manager if you are intending to use this code in production, such as [pm2](https://www.npmjs.com/package/pm2)!
 
 # Upcoming features
-
-* Enriching dice rolling adding modifier supper and pass checks
-* PERSISTENCE - not just in fighting bugs and doing work after 8 hours of other work, but also, putting data on disk!
+* Refactoring index cos it's stanky in here!
 * Score! - Yeah! Adding scores to things, so that you can like, build up score and use it to do things, relies on persistence existing
 * Hangman !fullword penalties - !fullword is OP, you need to spend some score to use it and if you get it wrong will not be allowed to !fullword again for the rest of this hangman session, it gives more score the earlier used, and is worth the same as a win when used 1 letter away from the end.
 * The feeding game! - The goat is hungry, feed it, everyone who feeds it within a time limit gets some score.
