@@ -4,10 +4,11 @@ const Moment = require('moment');
  * Returns a random number between 0 and max;
  */
 function getRand(max) {
-  if (max === '0') {
+  const parsedMax = parseInt(max);
+  if (parsedMax === 0) {
     return 0;
   }
-  return Math.floor(Math.random() * (max) + 1);
+  return Math.floor(Math.random() * (parsedMax) + 1);
 }
 
 /**
@@ -19,7 +20,10 @@ const msToTime = function (ms) {
   return uptime.humanize();
 };
 
+const halfAnHour = 15 * 60 * 1000;
+
 module.exports = {
   getRand,
+  halfAnHour,
   msToTime
 };

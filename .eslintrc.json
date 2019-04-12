@@ -18,6 +18,9 @@
     "object-curly-spacing": [ "error", "always" ],
     "semi-spacing": "error",
     "no-confusing-arrow": "error",
-    "no-constant-condition": "error"
+    "no-constant-condition": "error",
+    "keyword-spacing": "error",
+    "no-unused-vars": "error",
+    "no-use-before-define": ["error", { "functions": false, "classes": true, "variables": false }]
   }
 }

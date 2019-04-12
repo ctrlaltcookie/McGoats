@@ -20,6 +20,11 @@ describe('Util', () => {
       expect(result).to.be.lessThan(11);
     });
 
+    it('should return 0 when the max is 0', () => {
+      const result = Util.getRand(0);
+      expect(result).to.equal(0);
+    });
+
   });
 
   describe('msToTime', () => {
