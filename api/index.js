@@ -32,7 +32,7 @@ const extractCommand = function(userInput) {
 };
 
 /**
- * Setups up the ready event letting you know it's up
+ * Sets up the ready event and vote state
  */
 client.on('ready', () => {
   console.log('I am ready!');
