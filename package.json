@@ -4,7 +4,8 @@
   "description": "A discord bot",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/lab -c"
+    "test": "./node_modules/.bin/lab -c",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
