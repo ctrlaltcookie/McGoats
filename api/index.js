@@ -1,11 +1,13 @@
 const Discord = require('discord.js');
 const Fs = require('fs');
 
-const { token } = require('./token');
 const { Bleetify } = require('./bleetify');
 
 const Hangman = require('./games/hangman');
 const Routes = require('./routes');
+const token = require('./token');
+const Util = require('./util');
+const Vote = require('./vote');
 
 let hangmanState = {
   playing: false,
@@ -15,37 +17,18 @@ let hangmanState = {
   mask: null
 };
 
-let savestate = {
-  goodgoat: 0,
-  badgoat: 0
-};
-
 // Create an instance of a Discord client
 const client = new Discord.Client();
 
-Fs.readFile('./data/savestate.json', 'utf8', (err, data) => {
-  if (err) {
-    console.log('this was caused by file systems read');
-    console.log(JSON.stringify(err));
-    process.exit(1);
+const extractCommand = function(userInput) {
+  if (!userInput.startsWith('!')) {
+    return false;
   }
-  savestate = Object.assign(savestate, JSON.parse(data));
-  console.log('state set');
-});
-
-const halfAnHour = 15 * 60 * 1000;
-
-const resetVotes = function () {
-  goodVoteHistory = [];
-  badVoteHistory = [];
-  Fs.writeFile('./data/savestate.json', JSON.stringify(savestate), 'utf8', (err) => {
-    if (err) {
-      console.log('this was caused by file systems write');
-      console.log(JSON.stringify(err));
-      process.exit(1);
-    }
-    setTimeout(resetVotes, halfAnHour);
-  });
+  const bangSplit = userInput.trim().split('!');
+  if (bangSplit[1]) {
+    return bangSplit[1].split(' ')[0];
+  }
+  return false;
 };
 
 /**
@@ -53,7 +36,8 @@ const resetVotes = function () {
  */
 client.on('ready', () => {
   console.log('I am ready!');
-  setTimeout(resetVotes, halfAnHour);
+  Vote.setupVote();
+  setTimeout(Vote.resetVotes, Util.halfAnHour);
 });
 
 // Create an event listener for messages
@@ -83,11 +67,17 @@ client.on('message', message => {
     }
 
     if (hangmanState.playing && command === `!${hangmanState.word}`) {
-      Hangman.win(hangmanState, message);
+      return Hangman.win(hangmanState, message);
     }
 
     if (Routes[command]) {
-      Routes[command].execute(message, username);
+      return Routes[command].execute(message, username, client);
+    } else {
+      const commandStream = Fs.createWriteStream('./data/newCommands.txt', { flags: 'a' });
+      commandStream.write(`
+      Last seen: ${new Date().toISOString()}
+      Command: ${command}`);
+      commandStream.end();
     }
 
   } catch (err) {
@@ -106,13 +96,5 @@ client.on('error', () => {
   Unknown client error`);
   logStream.end();
 });
-
-const extractCommand = function(userInput) {
-  const bangSplit = userInput.trim().split('!');
-  if (bangSplit[1]) {
-    return bangSplit[1].split(' ')[0];
-  }
-  return false;
-};
 
 client.login(token);

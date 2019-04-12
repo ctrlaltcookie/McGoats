@@ -1,9 +1,44 @@
-const { Bleetify } = require('./bleetify');
+const Fs = require('fs');
+
+const { Bleetify } = require('../bleetify');
+
+const Util = require('../util');
 
 const goodVoteHistory = [];
 const badVoteHistory = [];
 
-const goodGoat = function (message) {
+let savestate = {
+  goodgoat: 0,
+  badgoat: 0
+};
+
+const setupVote = function () {
+  Fs.readFile('./data/savestate.json', 'utf8', (err, data) => {
+    if (err) {
+      console.log('this was caused by file systems read');
+      console.log(JSON.stringify(err));
+      process.exit(1);
+    }
+    savestate = Object.assign(savestate, JSON.parse(data));
+    console.log('state set');
+  });
+};
+
+const _checkHistory = function (voteHistory, username, message) {
+  const oneVotePrevious = voteHistory.pop();
+  const twoVotesPrevious = voteHistory.pop();
+  const consecutive = oneVotePrevious === username && twoVotesPrevious === username;
+
+  if (consecutive) {
+    message.reply("Please don't spam votes, baa!").then(msg => {
+      msg.delete(5000);
+    });
+  }
+
+  return consecutive;
+};
+
+const goodGoat = function (message, username) {
   const consecutive = _checkHistory([...goodVoteHistory], username, message);
   goodVoteHistory.push(username);
 
@@ -11,14 +46,14 @@ const goodGoat = function (message) {
     savestate.goodgoat++;
   }
 
-  if (Util.getRand(15) === 1) {
+  if (Util.getRand(19) === 1) {
     message.reply(Bleetify('Good human :3 !'));
   }
 
   return message.react(message.client.emojis.find(emoji => emoji.name === 'cat1').id);
 };
 
-const badGoat = function (message) {
+const badGoat = function (message, username) {
   const consecutive = _checkHistory([...badVoteHistory], username, message);
   badVoteHistory.push(username);
 
@@ -26,7 +61,7 @@ const badGoat = function (message) {
     savestate.badgoat++;
   }
 
-  if (Util.getRand(15) === 1) {
+  if (Util.getRand(19) === 1) {
     message.reply(Bleetify('Bad human :< !'));
   }
 
@@ -55,22 +90,23 @@ const balance = function (message) {
       .send(Bleetify(`I've been a ${goatType} ${emoji}`));
 };
 
-const _checkHistory = function (voteHistory, username, message) {
-  const oneVotePrevious = voteHistory.pop();
-  const twoVotesPrevious = voteHistory.pop();
-  const consecutive = oneVotePrevious === username && twoVotesPrevious === username;
-
-  if (consecutive) {
-    message.reply("Please don't spam votes, baa!").then(msg => {
-      msg.delete(5000);
-    });
-  }
-
-  return consecutive;
+const resetVotes = function () {
+  goodVoteHistory = [];
+  badVoteHistory = [];
+  Fs.writeFile('./data/savestate.json', JSON.stringify(savestate), 'utf8', (err) => {
+    if (err) {
+      console.log('this was caused by file systems write');
+      console.log(JSON.stringify(err));
+      process.exit(1);
+    }
+    setTimeout(resetVotes, Util.halfAnHour);
+  });
 };
 
 module.exports = {
   badGoat,
   balance,
-  goodGoat
+  goodGoat,
+  resetVotes,
+  setupVote
 };

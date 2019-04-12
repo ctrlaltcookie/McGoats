@@ -20,7 +20,10 @@ const msToTime = function (ms) {
   return uptime.humanize();
 };
 
+const halfAnHour = 15 * 60 * 1000;
+
 module.exports = {
   getRand,
+  halfAnHour,
   msToTime
 };

@@ -6,6 +6,8 @@ const Pjson = require('../package.json');
 const Util = require('./util');
 const Vote = require('./vote');
 
+const workingon = `I'm working on maintainability at the moment to help with the ease of adding features into the future`;
+
 const routes = {
   badgoat: {
     name: 'badgoat',
@@ -26,7 +28,7 @@ const routes = {
     description: 'change your name colour',
     command: '!colour',
     example: '!colour #97dbc8',
-    execute: (message) => {
+    execute: message => {
       const hex = message.content.split(' ')[1];
       const role = message.member.highestRole;
       role.setColor(hex)
@@ -41,7 +43,7 @@ const routes = {
     description: 'lists the available commands synonymous with !help without ',
     command: '!commands',
     example: '!commands or !help',
-    execute: (message) => help(message)
+    execute: message => help(message)
   },
   count: {
     name: 'count',
@@ -55,7 +57,7 @@ const routes = {
     description: 'upvote the goat! :3',
     command: '!goodgoat',
     example: '!goodgoat',
-    execute: Vote.badGoat
+    execute: Vote.goodGoat
   },
   hangman: {
     name: 'hangman',
@@ -68,21 +70,21 @@ const routes = {
     description: 'lists all available commands or if you specify a command the help for that command',
     command: '!help',
     example: '!help or !commands',
-    execute: (message) => help(message)
+    execute: message => help(message)
   },
   ping: {
     name: 'ping',
     description: 'responds with pong',
     command: '!ping',
     example: '!ping',
-    execute: () => message.channel.send(Bleetify('Pong!'))
+    execute: message => message.channel.send(Bleetify('Pong!'))
   },
   pong: {
     name: 'pong',
     description: 'responds with ping',
     command: '!pong',
     example: '!pong',
-    execute: () => message.channel.send(Bleetify('Ping!'))
+    execute: message => message.channel.send(Bleetify('Ping!'))
   },
   role: {
     name: 'role',
@@ -97,7 +99,7 @@ const routes = {
     command: '!roll',
     example: '!roll 2d10>8+2 you\'re rolling 2 dice that have 10 sides, aiming for 8 or higher and +2 to each of your rolls',
     execute: (message) => {
-      const { numSides, diceToRoll, modifier, challenge, command } = Dice.getDiceOptions(content);
+      const { numSides, diceToRoll, modifier, challenge, command } = Dice.getDiceOptions(message.content);
       const result = Dice.roll(numSides, diceToRoll, modifier, challenge);
       return message.channel.send(Bleetify(`You rolled ${command} and got; ${result}`));
     }
@@ -107,48 +109,47 @@ const routes = {
     description: 'people being weird to th egoat is not cool man',
     command: '!sexygoat',
     example: '!sexygoat - dont',
-    execute: () => message.channel.send("``` You've really freaked the goat out :/ don't do that ```")
+    execute: message => message.channel.send("``` You've really freaked the goat out :/ don't do that ```")
   },
   upcoming: {
     name: 'upcoming',
     description: 'what we are currently working on, features to come',
     command: '!upcoming',
     example: '!upcoming - Building some sandcastles :o',
-    execute: () => message.channel.send(Bleetify(workingon))
+    execute: message => message.channel.send(Bleetify(workingon))
   },
   uptime: {
     name: 'uptime',
     description: 'how long the server has been up, how long the goat has been awake',
     command: '!uptime',
     example: '!uptime - Baa, we\'ve been up for 2 days',
-    execute: (message) => message.channel.send(Bleetify(`We've been up for ${Util.msToTime(client.uptime)}`))
+    execute: (message, notUsed, client) => message.channel.send(Bleetify(`We've been up for ${Util.msToTime(client.uptime)}`))
   },
   version: {
     name: 'version',
     description: 'what version we are running, this is important for debugging',
     command: '!version',
     example: '!version - v3.0.2',
-    execute: () => message.channel.send(Bleetify(`We're using v${Pjson.version}`))
+    execute: message => message.channel.send(Bleetify(`We're using v${Pjson.version}`))
   },
   workingon: {
     name: 'working on',
     description: 'what we are currently working on, upcoming features or fixes',
     command: '!workingon',
     example: '!workingon - We\'re currently working on: maintainability! This grew really fast and needs fixing!',
-    execute: () => message.channel.send(Bleetify(workingon))
+    execute: message => message.channel.send(Bleetify(workingon))
   }
 };
 
-const workingon = `I'm working on maintainability at the moment to help with the ease of adding features into the future`;
-
-const help = function (message) {
+function help (message) {
   const commandsList = [];
   Object.keys(routes).forEach(key => {
-    commandsList.push(`  * ${key.example}`);
+    commandsList.push(`  * ${routes[key].example}\n`);
   });
-  return message.channel.send(`\`\`\` Available commands are:
-  ${commandsList.toString('\n')}
-  \`\`\``);
+  const constructedString = `\`\`\` Available commands are:
+${commandsList.join('')}
+  \`\`\``;
+  return message.channel.send(constructedString);
 };
 
 module.exports = routes;
