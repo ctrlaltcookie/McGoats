@@ -4,8 +4,8 @@ const { Bleetify } = require('../bleetify');
 
 const Util = require('../util');
 
-const goodVoteHistory = [];
-const badVoteHistory = [];
+let goodVoteHistory = [];
+let badVoteHistory = [];
 
 let savestate = {
   goodgoat: 0,
