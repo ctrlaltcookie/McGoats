@@ -90,11 +90,7 @@ client.on('message', message => {
 });
 
 client.on('error', () => {
-  const logStream = Fs.createWriteStream('./data/log.txt', { flags: 'a' });
-  logStream.write(`
-  Last seen: ${new Date().toISOString()}
-  Unknown client error`);
-  logStream.end();
+  Util.logErr('Unknown client error', 'No stack sorry :(');
 });
 
 client.login(token);

@@ -5,6 +5,7 @@ const Dice = require('./dice');
 const Pjson = require('../package.json');
 const Util = require('./util');
 const Vote = require('./vote');
+const streamers = require('./streamers');
 
 const workingon = `I'm working on maintainability at the moment to help with the ease of adding features into the future`;
 
@@ -111,6 +112,8 @@ const routes = {
     example: '!sexygoat - dont',
     execute: message => message.channel.send("``` You've really freaked the goat out :/ don't do that ```")
   },
+  streamer: streamers.streamerRoute,
+  streaming: streamers.streamingRoute,
   upcoming: {
     name: 'upcoming',
     description: 'what we are currently working on, features to come',

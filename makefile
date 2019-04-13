@@ -12,4 +12,7 @@ test:
 run:
 	node index.js
 
+lint:
+	node_modules/.bin/eslint api/
+
 .PHONY: test

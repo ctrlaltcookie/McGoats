@@ -15,8 +15,7 @@ let savestate = {
 const setupVote = function () {
   Fs.readFile('./data/savestate.json', 'utf8', (err, data) => {
     if (err) {
-      console.log('this was caused by file systems read');
-      console.log(JSON.stringify(err));
+      Util.logErr(err, 'this was caused by file systems read');
       process.exit(1);
     }
     savestate = Object.assign(savestate, JSON.parse(data));
@@ -95,8 +94,7 @@ const resetVotes = function () {
   badVoteHistory = [];
   Fs.writeFile('./data/savestate.json', JSON.stringify(savestate), 'utf8', (err) => {
     if (err) {
-      console.log('this was caused by file systems write');
-      console.log(JSON.stringify(err));
+      Util.logErr(err, 'this was caused by file systems read');
       process.exit(1);
     }
     setTimeout(resetVotes, Util.halfAnHour);
