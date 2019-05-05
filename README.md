@@ -70,7 +70,6 @@ I'd suggest using a process manager if you are intending to use this code in pro
 ## Upcoming features
 
 * talk as bot feature!
-* adding a twitch link fetcher so people don't have to type it out arduously all the time
 * Score! - Yeah! Adding scores to things, so that you can like, build up score and use it to do things, relies on persistence existing
 * Hangman !fullword penalties - !fullword is OP, you need to spend some score to use it and if you get it wrong will not be allowed to !fullword again for the rest of this hangman session, it gives more score the earlier used, and is worth the same as a win when used 1 letter away from the end.
 * The feeding game! - The goat is hungry, feed it, everyone who feeds it within a time limit gets some score.

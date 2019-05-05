@@ -7,7 +7,7 @@ const Util = require('./util');
 const Vote = require('./vote');
 const streamers = require('./streamers');
 
-const workingon = `I'm working on maintainability at the moment to help with the ease of adding features into the future`;
+const workingon = `I'm having a look at setting up custom bot based anouncements, so that administrators can use the bot to talk`;
 
 const routes = {
   badgoat: {
