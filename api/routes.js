@@ -73,6 +73,13 @@ const routes = {
     example: '!help or !commands',
     execute: message => help(message)
   },
+  noron: {
+    name: 'noron',
+    description: 'returns a video saying, no ron',
+    command: '!noron',
+    example: '!noron',
+    execute: message => message.channel.send('https://www.youtube.com/watch?v=0NfTVytat_E')
+  },
   ping: {
     name: 'ping',
     description: 'responds with pong',
