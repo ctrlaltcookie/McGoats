@@ -67,6 +67,28 @@ $ node index.js
 
 I'd suggest using a process manager if you are intending to use this code in production, such as [pm2](https://www.npmjs.com/package/pm2)! You'll need to add a `./token` folder or file that contains your auth token.
 
+## Api Features
+
+McGoats uses the classic bang (!) style command system, this means that it will be incompatible with any other bot or game that uses the same structure for commands.
+
+### Goodgoat / Badgoat
+
+The bot starts off as grey, sitting as neither good nor bad, you can use !goodgoat and !badgoat to shift the tiller toward the goat being a positive or negative force on your server. This is useful for figuring out if the goat is having any kind of positive or negative influence over time, to help you decide on whether you want to keep the goat or not.
+
+Use !balance or !count to find out how the goat is doing.
+
+### Role colour
+
+!colour #97dbc8 will let you change the colour of your role, this is an easy way of letting people self manage the colour of their role, as the functionality for this is normally locked away at the higher levels of moderation.
+
+### Help
+
+You can use !commands or !help to display a list of the commands available and examples of their usage.
+
+### Hangman
+
+Use !hangman to start a game of hangman, where you use !a bang + letter to guess a letter and can use !fullword to guess the fullword. It's fully interactive and anyone can join in, at the moment you can't have a single player game and scores aren't kept.
+
 ## Upcoming features
 
 * talk as bot feature!
