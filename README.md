@@ -1,3 +1,5 @@
+![logo](logo/original-horizontal.png)
+
 # McGoats
 
 McGoats is a discord bot for the Totes discord server built by [Remi](https://www.twitter.com/ctrlaltcookie) for adding missing discord functionality, memes and assisting in roleplaying games.
