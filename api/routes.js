@@ -73,6 +73,13 @@ const routes = {
     example: '!help or !commands',
     execute: message => help(message)
   },
+  kinkshamed: {
+    name: 'kinkshamed',
+    description: 'returns a video about kinkshaming being your kink',
+    command: '!kinkshamed',
+    example: '!kinkshamed',
+    execute: message => message.channel.send('https://www.youtube.com/watch?v=zW1uN0SjKPY')
+  },
   noron: {
     name: 'noron',
     description: 'returns a video saying, no ron',
