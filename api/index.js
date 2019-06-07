@@ -49,7 +49,7 @@ client.on('message', message => {
 
     const username = message.author.username.toLowerCase();
 
-    if (!hangmanState.playing && command.length < 3) {
+    if (hangmanState.playing && command.length < 3) {
       return Hangman.play(message, hangmanState);
     }
 
@@ -62,7 +62,7 @@ client.on('message', message => {
       return message.channel.send(Bleetify(`Lets play hangman, your word is ${hangmanState.mask.length} letters long, respond with !letter to play, like this: !a`));
     }
 
-    if (hangmanState.playing && command === hangman) {
+    if (hangmanState.playing && command === 'hangman') {
       return Hangman.currentState(message, hangmanState);
     }
 
