@@ -43,7 +43,7 @@ const setup = function () {
 
 const unmask = function (gamestate, guess) {
   let edit = gamestate.word;
-  while(edit.indexOf(guess) > -1) {
+  while (edit.indexOf(guess) > -1) {
     const index = edit.indexOf(guess);
     if (index > -1) {
       gamestate.mask = gamestate.mask.substr(0, index) + guess + gamestate.mask.substr(index + 1);

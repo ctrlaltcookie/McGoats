@@ -94,3 +94,18 @@ client.on('error', () => {
 });
 
 client.login(token);
+
+
+const http = require('http');
+const port = 3838;
+
+const server = http.createServer((request, response) => {
+  response.end(client.status);
+});
+
+server.listen(port, (err) => {
+  if (err) {
+    return console.log('monitoring crashed', err);
+  }
+  console.log(`monitoring server is listening on ${port}`);
+});

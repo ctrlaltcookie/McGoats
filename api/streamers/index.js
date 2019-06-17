@@ -11,7 +11,8 @@ const streaming = function (message, username) {
     const role = message.guild.roles.find(r => r.name === 'stream-viewer');
 
     if (streamers[username]) {
-      const content = message.content.split(' ')[1];
+      const content = message.content.split(' ');
+      content.shift();
       const alertStart = `${role} ${username} is streaming`;
       const alertEnd = `over on https://twitch.tv/${streamers[username]}`;
       const alert = (content) ? `${alertStart} \`${content}\` ${alertEnd}` : `${alertStart} ${alertEnd}`;
