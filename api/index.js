@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const Fs = require('fs');
+const Http = require('http');
 
 const { Bleetify } = require('./bleetify');
 
@@ -94,3 +95,27 @@ client.on('error', () => {
 });
 
 client.login(token);
+
+const port = 3838;
+const monitoringServer = Http.createServer((request, response) => {
+
+  const statuses = {
+    0: 'Ready',
+    1: 'Connecting',
+    2: 'Reconnecting',
+    3: 'Idle',
+    4: 'Nearly',
+    5: 'Disconnected'
+  };
+
+  response.writeHead(200, { 'Content-Type': 'text/html' });
+  response.write(statuses[client.status]);
+  response.end();
+});
+
+monitoringServer.listen(port, (err) => {
+  if (err) {
+    return console.log('monitoring crashed', err);
+  }
+  console.log(`monitoring server is listening on ${port}`);
+});
