@@ -4,7 +4,7 @@
   "description": "A discord bot",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/lab -c",
+    "test": "make ci-test",
     "start": "node index.js"
   },
   "repository": {
