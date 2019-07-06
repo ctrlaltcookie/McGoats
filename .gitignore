@@ -64,6 +64,7 @@ typings/
 token.js
 */token/*
 .vscode/*
+.vscode
 
 # Data
 data/*

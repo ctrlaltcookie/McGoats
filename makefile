@@ -18,6 +18,8 @@ run:
 	node index.js
 
 lint:
-	node_modules/.bin/eslint api/
+	node_modules/.bin/eslint "api/**"
 
-.PHONY: test
+ci-test: lint test
+
+.PHONY: lint test
