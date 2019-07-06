@@ -140,7 +140,15 @@ const routes = {
     description: 'how long the server has been up, how long the goat has been awake',
     command: '!uptime',
     example: '!uptime - Baa, we\'ve been up for 2 days',
-    execute: (message, notUsed, client) => message.channel.send(Bleetify(`We've been up for ${Util.msToTime(client.uptime)}`))
+    execute: (message, notUsed, client) => {
+      return message
+        .channel
+        .send(
+          Bleetify(
+            `We've been up for ${Util.msToTime(client.uptime)}. For more information on uptime visit: https://stats.uptimerobot.com/koARltxYO`
+          )
+        );
+    }
   },
   version: {
     name: 'version',
