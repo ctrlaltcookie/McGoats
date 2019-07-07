@@ -126,6 +126,13 @@ const routes = {
     example: '!sexygoat - dont',
     execute: message => message.channel.send("``` You've really freaked the goat out :/ don't do that ```")
   },
+  sneezy: {
+    name: 'sneezy',
+    description: 'returns the sneezy xl sketch from rick and morty',
+    command: '!sneezy',
+    example: '!sneezy',
+    execute: message => message.channel.send('https://www.youtube.com/watch?v=_FwVYeeY1Ew')
+  },
   streamer: streamers.streamerRoute,
   streaming: streamers.streamingRoute,
   upcoming: {
