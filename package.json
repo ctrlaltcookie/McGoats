@@ -23,9 +23,9 @@
   },
   "homepage": "https://github.com/ctrlaltcookie/McGoats#readme",
   "dependencies": {
-    "discord.js": "^11.4.2",
+    "discord.js": "^11.5.1",
     "moment": "^2.24.0",
-    "sinon": "^7.2.3"
+    "sinon": "^7.3.2"
   },
   "devDependencies": {
     "code": "^5.2.4",
