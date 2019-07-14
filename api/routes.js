@@ -2,10 +2,11 @@ const { Bleetify } = require('./bleetify');
 const { handleRoles } = require('./roles');
 
 const Dice = require('./dice');
+const Paranoia = require('./games/paranoia');
 const Pjson = require('../package.json');
 const Util = require('./util');
 const Vote = require('./vote');
-const streamers = require('./streamers');
+const Streamers = require('./streamers');
 
 const workingon = `I'm having a look at setting up custom bot based anouncements, so that administrators can use the bot to talk`;
 
@@ -87,6 +88,14 @@ const routes = {
     example: '!noron',
     execute: message => message.channel.send('https://www.youtube.com/watch?v=0NfTVytat_E')
   },
+  paranoia: {
+    name: 'paranoia',
+    description: 'contains paranoia related subcommands!',
+    command: '!paranoia',
+    example: '!paranoia clearance',
+    execute: message => Paranoia.dispatcher(message)
+
+  },
   ping: {
     name: 'ping',
     description: 'responds with pong',
@@ -133,8 +142,8 @@ const routes = {
     example: '!sneezy',
     execute: message => message.channel.send('https://www.youtube.com/watch?v=_FwVYeeY1Ew')
   },
-  streamer: streamers.streamerRoute,
-  streaming: streamers.streamingRoute,
+  streamer: Streamers.streamerRoute,
+  streaming: Streamers.streamingRoute,
   upcoming: {
     name: 'upcoming',
     description: 'what we are currently working on, features to come',
