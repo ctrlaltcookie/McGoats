@@ -1,4 +1,4 @@
-const { Bleetify } = require('../../bleetify');
+const Bleetify = require('bleetify');
 const Template = require('./hangmanTemplate');
 const { words } = require('./words');
 const Util = require('../../util');
@@ -7,7 +7,7 @@ const tick = '`';
 const play = function (message, gamestate) {
   const guess = message.content.toLowerCase()[1];
   if (gamestate.guessedLetters[guess]) {
-    return message.channel.send(Bleetify(`You already guessed ${guess}`, 20));
+    return message.channel.send(Bleetify.bleet(`You already guessed ${guess}`, 20));
   }
   gamestate.guessedLetters[guess] = true;
   if (gamestate.word.includes(guess)) {
@@ -16,7 +16,7 @@ const play = function (message, gamestate) {
       return win(gamestate, message);
     }
     const ticks = '```';
-    return message.channel.send(Bleetify(guessedLetters(gamestate) + '\n' + ticks + `${gamestate.mask}` + ticks, 20));
+    return message.channel.send(Bleetify.bleet(guessedLetters(gamestate) + '\n' + ticks + `${gamestate.mask}` + ticks, 20));
   }
   gamestate.turn++;
   if (gamestate.turn === 9) {
@@ -55,7 +55,7 @@ const unmask = function (gamestate, guess) {
 const win = function (gamestate, message) {
   const word = gamestate.word;
   gamestate.playing = false;
-  return message.channel.send(Bleetify(`${tick}${word}${tick}, ooooh! You got it!`, 20));
+  return message.channel.send(Bleetify.bleet(`${tick}${word}${tick}, ooooh! You got it!`, 20));
 };
 
 const reset = function () {

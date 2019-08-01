@@ -1,4 +1,4 @@
-const { Bleetify } = require('../bleetify');
+const Bleetify = require('bleetify');
 
 const roles = {
   rpgPlayers: 'rpg-players',
@@ -13,7 +13,7 @@ const handleRoles = function (message) {
   const member = message.member;
 
   if (content === '!roles' || content === '!role') {
-    return message.channel.send(Bleetify(` \`\`\`css
+    return message.channel.send(Bleetify.bleet(` \`\`\`css
 To set your role use !role rolename such as !role ${roles.rpgDM}
 
 Available roles:
@@ -37,7 +37,7 @@ Then use \@role to alert all players with this role assigned!
 };
 
 const bleetRole = function (message, roleName) {
-  return message.channel.send(Bleetify(`Set your role to ${roleName}`));
+  return message.channel.send(Bleetify.bleet(`Set your role to ${roleName}`));
 };
 
 module.exports = {

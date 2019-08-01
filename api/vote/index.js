@@ -1,6 +1,6 @@
 const Fs = require('fs');
 
-const { Bleetify } = require('../bleetify');
+const Bleetify = require('bleetify');
 
 const Util = require('../util');
 
@@ -46,7 +46,7 @@ const goodGoat = function (message, username) {
   }
 
   if (Util.getRand(19) === 1) {
-    message.reply(Bleetify('Good human :3 !'));
+    message.reply(Bleetify.bleet('Good human :3 !'));
   }
 
   return message.react(message.client.emojis.find(emoji => emoji.name === 'cat1').id);
@@ -61,7 +61,7 @@ const badGoat = function (message, username) {
   }
 
   if (Util.getRand(19) === 1) {
-    message.reply(Bleetify('Bad human :< !'));
+    message.reply(Bleetify.bleet('Bad human :< !'));
   }
 
   return message.react(message.client.emojis.find(emoji => emoji.name === 'eww').id);
@@ -86,7 +86,7 @@ const balance = function (message) {
     const emoji = message.client.emojis.find(emoji => emoji.name === emoteType);
     return message
       .channel
-      .send(Bleetify(`I've been a ${goatType} ${emoji}`));
+      .send(Bleetify.bleet(`I've been a ${goatType} ${emoji}`));
 };
 
 const resetVotes = function () {

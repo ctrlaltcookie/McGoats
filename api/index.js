@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const Fs = require('fs');
 const Http = require('http');
 
-const { Bleetify } = require('./bleetify');
+const Bleetify = require('bleetify');
 
 const Hangman = require('./games/hangman');
 const Routes = require('./routes');
@@ -60,7 +60,7 @@ client.on('message', message => {
       hangmanState.word = setup.word;
       hangmanState.mask = setup.mask;
       hangmanState.playing = true;
-      return message.channel.send(Bleetify(`Lets play hangman, your word is ${hangmanState.mask.length} letters long, respond with !letter to play, like this: !a`));
+      return message.channel.send(Bleetify.bleet(`Lets play hangman, your word is ${hangmanState.mask.length} letters long, respond with !letter to play, like this: !a`));
     }
 
     if (hangmanState.playing && command === 'hangman') {
@@ -83,7 +83,7 @@ client.on('message', message => {
 
   } catch (err) {
     console.log(JSON.stringify(err));
-    message.channel.send(Bleetify(`*Cough*, *splutter*, @CtrlAltCookie#5716 ${err}`)).then(() => {
+    message.channel.send(Bleetify.bleet(`*Cough*, *splutter*, @CtrlAltCookie#5716 ${err}`)).then(() => {
       console.log('this was caused by user error');
       console.log(JSON.stringify(err));
     });

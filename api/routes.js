@@ -1,4 +1,4 @@
-const { Bleetify } = require('./bleetify');
+const Bleetify = require('bleetify');
 const { handleRoles } = require('./roles');
 
 const Dice = require('./dice');
@@ -34,7 +34,7 @@ const routes = {
       const role = message.member.highestRole;
       role.setColor(hex)
         .then(() => {
-          message.channel.send(Bleetify(`Your colour is now ${hex}`));
+          message.channel.send(Bleetify.bleet(`Your colour is now ${hex}`));
         })
         .catch(console.error);
     }
@@ -92,14 +92,14 @@ const routes = {
     description: 'responds with pong',
     command: '!ping',
     example: '!ping',
-    execute: message => message.channel.send(Bleetify('Pong!'))
+    execute: message => message.channel.send(Bleetify.bleet('Pong!'))
   },
   pong: {
     name: 'pong',
     description: 'responds with ping',
     command: '!pong',
     example: '!pong',
-    execute: message => message.channel.send(Bleetify('Ping!'))
+    execute: message => message.channel.send(Bleetify.bleet('Ping!'))
   },
   role: {
     name: 'role',
@@ -116,7 +116,7 @@ const routes = {
     execute: (message) => {
       const { numSides, diceToRoll, modifier, challenge, command } = Dice.getDiceOptions(message.content);
       const result = Dice.roll(numSides, diceToRoll, modifier, challenge);
-      return message.channel.send(Bleetify(`You rolled ${command} and got; ${result}`));
+      return message.channel.send(Bleetify.bleet(`You rolled ${command} and got; ${result}`));
     }
   },
   sexygoat: {
@@ -140,7 +140,7 @@ const routes = {
     description: 'what we are currently working on, features to come',
     command: '!upcoming',
     example: '!upcoming - Building some sandcastles :o',
-    execute: message => message.channel.send(Bleetify(workingon))
+    execute: message => message.channel.send(Bleetify.bleet(workingon))
   },
   uptime: {
     name: 'uptime',
@@ -151,7 +151,7 @@ const routes = {
       return message
         .channel
         .send(
-          Bleetify(
+          Bleetify.bleet(
             `We've been up for ${Util.msToTime(client.uptime)}. For more information on uptime visit: https://stats.uptimerobot.com/koARltxYO`
           )
         );
@@ -162,14 +162,14 @@ const routes = {
     description: 'what version we are running, this is important for debugging',
     command: '!version',
     example: '!version - v3.0.2',
-    execute: message => message.channel.send(Bleetify(`We're using v${Pjson.version}`))
+    execute: message => message.channel.send(Bleetify.bleet(`We're using v${Pjson.version}`))
   },
   workingon: {
     name: 'working on',
     description: 'what we are currently working on, upcoming features or fixes',
     command: '!workingon',
     example: '!workingon - We\'re currently working on: maintainability! This grew really fast and needs fixing!',
-    execute: message => message.channel.send(Bleetify(workingon))
+    execute: message => message.channel.send(Bleetify.bleet(workingon))
   }
 };
 
