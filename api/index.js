@@ -37,6 +37,9 @@ const extractCommand = function(userInput) {
  */
 client.on('ready', () => {
   console.log('I am ready!');
+  client.user.setActivity('For help use', { type: '!help' })
+    .then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
+    .catch(console.error);
   Vote.setupVote();
   setTimeout(Vote.resetVotes, Util.halfAnHour);
 });
