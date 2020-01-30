@@ -9,6 +9,7 @@ const Routes = require('./routes');
 const token = require('./token');
 const Util = require('./util');
 const Vote = require('./vote');
+const Pjson = require('../package.json');
 
 let hangmanState = {
   playing: false,
@@ -37,7 +38,7 @@ const extractCommand = function(userInput) {
  */
 client.on('ready', () => {
   console.log('I am ready!');
-  client.user.setActivity('For help use', { type: '!help' })
+  client.user.setActivity(`v${Pjson.version} | !help `, { type: 'PLAYING' })
     .then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
     .catch(console.error);
   Vote.setupVote();
