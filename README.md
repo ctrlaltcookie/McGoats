@@ -2,6 +2,8 @@
 
 # McGoats
 
+Discontinued and unmaintained, the goat has been let out to pasture.
+
 [![Build Status](https://travis-ci.org/ctrlaltcookie/McGoats.svg?branch=master)](https://travis-ci.org/ctrlaltcookie/McGoats)
 
 McGoats is a discord bot for the Totes discord server built by [Remi](https://www.twitter.com/ctrlaltcookie) for adding missing discord functionality, memes and assisting in roleplaying games.
